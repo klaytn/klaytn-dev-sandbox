@@ -1,0 +1,10 @@
+{
+    "name": "Thor's Hammer ",
+    "symbol": "THOR",
+    "decimal": 18,
+    "description": "This is a fungible token."
+}
+
+
+//Hash of the json file
+//https://ipfs.io/ipfs/QmW3ztsfNhVdkS129zJrV79NnPRHVpb3Dc6QrN9b2m4FoM
