@@ -8,6 +8,6 @@ FUND_ADDR=$(curl -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","m
 echo "FUND_ADDR = $FUND_ADDR"
 curl -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"personal_unlockAccount","params":["'$FUND_ADDR'","",99999999],"id":1}' http://localhost:8551
 
-node ./test/init_accounts.js
+node ./network/init_accounts.js
 
 popd

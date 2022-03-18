@@ -51,3 +51,6 @@ artifacts
 
 #Deployment files
 frontend/deployed/
+
+#log files
+backend/network/*.log

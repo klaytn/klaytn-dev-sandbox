@@ -5,7 +5,7 @@ DATE=$(date +%Y%m%d_%H%M%S)
 pushd $DIR
 
 ./deploy_local_network.sh &> tee.$DATE.log &
-sleep 40
+sleep 100
 ./init_accounts.sh
 
 popd

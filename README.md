@@ -102,3 +102,9 @@ In this case, you need to update `privateKey`, `accessKeyId`, and `secretAccessK
 /frontend is the boiler plate code to create UI for the contract. This code can be modified to play around with.
 Once the contracts are deployed the contract ABI and deployed contract address is written to file under 
 /frontend/deployed folder  
+
+```
+dev
+├── backend
+├── frontend
+```
