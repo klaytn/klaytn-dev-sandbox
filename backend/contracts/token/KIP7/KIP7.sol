@@ -2,11 +2,11 @@
 
 pragma solidity ^0.8.0;
 
-import './IKIP7.sol';
-import '../../utils/math/SafeMath.sol';
-import '../../utils/introspection/KIP13.sol';
-import '../../utils/Address.sol';
-import './IKIP7Receiver.sol';
+import "./IKIP7.sol";
+import "../../utils/math/SafeMath.sol";
+import "../../utils/introspection/KIP13.sol";
+import "../../utils/Address.sol";
+import "./IKIP7Receiver.sol";
 
 /**
  * @dev Implementation of the `IKIP7` interface.
@@ -38,6 +38,8 @@ contract KIP7 is KIP13, IKIP7 {
 
     mapping(address => mapping(address => uint256)) private _allowances;
 
+    string public _name;
+    string public _symbol;
     uint256 private _totalSupply;
 
     /*
@@ -59,6 +61,21 @@ contract KIP7 is KIP13, IKIP7 {
     constructor() {
         // register the supported interfaces to conform to KIP7 via KIP13
         _registerInterface(_INTERFACE_ID_KIP7);
+    }
+
+    /**
+     * @dev Returns the name of the token.
+     */
+    function name() public view virtual returns (string memory) {
+        return _name;
+    }
+
+    /**
+     * @dev Returns the symbol of the token, usually a shorter version of the
+     * name.
+     */
+    function symbol() public view virtual returns (string memory) {
+        return _symbol;
     }
 
     /**
@@ -143,7 +160,7 @@ contract KIP7 is KIP13, IKIP7 {
         if (currentAllowance != type(uint256).max) {
             require(
                 currentAllowance >= amount,
-                'KIP7: transfer amount exceeds allowance'
+                "KIP7: transfer amount exceeds allowance"
             );
             unchecked {
                 _approve(sender, msg.sender, currentAllowance - amount);
@@ -159,7 +176,7 @@ contract KIP7 is KIP13, IKIP7 {
      * @dev  Moves `amount` tokens from the caller's account to `recipient`.
      */
     function safeTransfer(address recipient, uint256 amount) public override {
-        safeTransfer(recipient, amount, '');
+        safeTransfer(recipient, amount, "");
     }
 
     /**
@@ -173,7 +190,7 @@ contract KIP7 is KIP13, IKIP7 {
         transfer(recipient, amount);
         require(
             _checkOnKIP7Received(msg.sender, recipient, amount, data),
-            'KIP7: transfer to non KIP7Receiver implementer'
+            "KIP7: transfer to non KIP7Receiver implementer"
         );
     }
 
@@ -186,7 +203,7 @@ contract KIP7 is KIP13, IKIP7 {
         address recipient,
         uint256 amount
     ) public override {
-        safeTransferFrom(sender, recipient, amount, '');
+        safeTransferFrom(sender, recipient, amount, "");
     }
 
     /**
@@ -202,7 +219,7 @@ contract KIP7 is KIP13, IKIP7 {
         transferFrom(sender, recipient, amount);
         require(
             _checkOnKIP7Received(sender, recipient, amount, data),
-            'KIP7: transfer to non KIP7Receiver implementer'
+            "KIP7: transfer to non KIP7Receiver implementer"
         );
     }
 
@@ -225,15 +242,15 @@ contract KIP7 is KIP13, IKIP7 {
         address recipient,
         uint256 amount
     ) internal {
-        require(sender != address(0), 'KIP7: transfer from the zero address');
-        require(recipient != address(0), 'KIP7: transfer to the zero address');
+        require(sender != address(0), "KIP7: transfer from the zero address");
+        require(recipient != address(0), "KIP7: transfer to the zero address");
 
         _beforeTokenTransfer(sender, recipient, amount);
 
         uint256 senderBalance = _balances[sender];
         require(
             senderBalance >= amount,
-            'KIP7: transfer amount exceeds balance'
+            "KIP7: transfer amount exceeds balance"
         );
         unchecked {
             _balances[sender] = senderBalance - amount;
@@ -255,7 +272,7 @@ contract KIP7 is KIP13, IKIP7 {
      * - `to` cannot be the zero address.
      */
     function _mint(address account, uint256 amount) internal virtual {
-        require(account != address(0), 'KIP7: mint to the zero address');
+        require(account != address(0), "KIP7: mint to the zero address");
 
         _totalSupply = _totalSupply.add(amount);
         _balances[account] = _balances[account].add(amount);
@@ -274,12 +291,12 @@ contract KIP7 is KIP13, IKIP7 {
      * - `account` must have at least `amount` tokens.
      */
     function _burn(address account, uint256 amount) internal virtual {
-        require(account != address(0), 'KIP7: burn from the zero address');
+        require(account != address(0), "KIP7: burn from the zero address");
 
         _beforeTokenTransfer(account, address(0), amount);
 
         uint256 accountBalance = _balances[account];
-        require(accountBalance >= amount, 'KIP7: burn amount exceeds balance');
+        require(accountBalance >= amount, "KIP7: burn amount exceeds balance");
         unchecked {
             _balances[account] = accountBalance - amount;
         }
@@ -308,8 +325,8 @@ contract KIP7 is KIP13, IKIP7 {
         address spender,
         uint256 value
     ) internal {
-        require(owner != address(0), 'KIP7: approve from the zero address');
-        require(spender != address(0), 'KIP7: approve to the zero address');
+        require(owner != address(0), "KIP7: approve from the zero address");
+        require(spender != address(0), "KIP7: approve to the zero address");
 
         _allowances[owner][spender] = value;
         emit Approval(owner, spender, value);
@@ -322,13 +339,13 @@ contract KIP7 is KIP13, IKIP7 {
      * See `_burn` and `_approve`.
      */
     function _burnFrom(address account, uint256 amount) internal {
-        require(account != address(0), 'KIP7: burn from the zero address');
+        require(account != address(0), "KIP7: burn from the zero address");
         uint256 accountBalance = _balances[account];
-        require(accountBalance >= amount, 'KIP7: burn amount exceeds balance');
+        require(accountBalance >= amount, "KIP7: burn amount exceeds balance");
         uint256 currentAllowance = _allowances[account][msg.sender];
         require(
             amount <= currentAllowance,
-            'KIP7: burn amount exceeds allowance'
+            "KIP7: burn amount exceeds allowance"
         );
         _burn(account, amount);
         _approve(
