@@ -2,12 +2,21 @@ import { useContext } from 'react'
 import providerContext from '../context/context'
 
 const Sign = () => {
-  const { metamaskAddress, metamaskCaver } = useContext(providerContext)
+  const { ethProvider, metamaskAddress, metamaskCaver, web3 } = useContext(providerContext)
 
+  console.log('caver: ', metamaskCaver)
   const sign = async () => {
     const message = 'test'
-    const txn = await metamaskCaver.rpc.klay.sign(metamaskAddress, message)
+    const txn = await metamaskCaver.klay.personal.sign(message, metamaskAddress)
+
     console.log('txn:', txn)
+  }
+
+  const ethereumSign = async () => {
+    // const txn = await ethProvider.request({
+    //   method: 'personal_sign',
+    //   params: [message, metamaskAddress],
+    // })
   }
 
   return (

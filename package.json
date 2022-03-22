@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "keccak256": "^1.0.6"
+  }
+}
