@@ -54,3 +54,10 @@ frontend/deployed/
 
 #log files
 backend/network/*.log
+
+#network log files
+network/local-klaytn-deploy/
+test/*.log
+
+#contract build files 
+build
