@@ -9,7 +9,7 @@ const Subheader = () => {
       <div className="flex text-xl">
         <Link href="/contracts">
           {active === 'contracts' ? (
-            <button className="mx-10 font-light transition ease-in-out duration-400 delay-100 border-magma text-magma border-b-2 pb-2  border-gray-100">
+            <button className="mx-10 font-light transition ease-in-out duration-400 delay-100 border-magma text-magma border-b-2 pb-2 ">
               Contracts
             </button>
           ) : (
@@ -23,7 +23,7 @@ const Subheader = () => {
         </Link>
         <Link href="/wallet">
           {active === 'wallet' ? (
-            <button className="mx-10 font-light transition ease-in-out duration-400 delay-100 border-magma text-magma border-b-2 pb-2 border-gray-100">
+            <button className="mx-10 font-light transition ease-in-out duration-400 delay-100 border-magma text-magma border-b-2 pb-2 ">
               Wallet
             </button>
           ) : (
