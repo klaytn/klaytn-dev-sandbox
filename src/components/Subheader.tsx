@@ -21,17 +21,17 @@ const Subheader = () => {
             </button>
           )}
         </Link>
-        <Link href="/transfers">
-          {active === 'transfers' ? (
-            <button className="mx-10 font-light transition ease-in-out duration-400 delay-100 border-magma text-magma border-b-2 pb-2  border-gray-100">
-              Transfers
+        <Link href="/wallet">
+          {active === 'wallet' ? (
+            <button className="mx-10 font-light transition ease-in-out duration-400 delay-100 border-magma text-magma border-b-2 pb-2 border-gray-100">
+              Wallet
             </button>
           ) : (
             <button
-              onClick={() => setActive('transfers')}
+              onClick={() => setActive('wallet')}
               className="mx-10 font-light transition ease-in-out duration-400 delay-100 hover:scale-110  hover:text-magma hover:border-b-2 hover:border-magma focus:border-magma focus:text-magma focus:border-b-2 pb-2 border-b-2 border-gray-100"
             >
-              Transfers
+              Wallet
             </button>
           )}
         </Link>
