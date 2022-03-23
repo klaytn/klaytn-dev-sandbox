@@ -8,12 +8,12 @@ module.exports = function(deployer) {
   .then(() => {
     // Record recently deployed contract address to 'deployedAddress' file.
     if (kip17Token._json) {
-      fs.mkdir('../frontend/deployed', { recursive: true }, (err) => {
+      fs.mkdir('./src/deployed', { recursive: true }, (err) => {
         if (err) throw err;
       });
       // Save abi file to deployedABI.
       fs.writeFile(
-        '../frontend/deployed/kip17TokenABI',
+        './src/deployed/kip17TokenABI',
         JSON.stringify(kip17Token._json.abi, 2),
         (err) => {
           if (err) throw err
@@ -21,7 +21,7 @@ module.exports = function(deployer) {
         })
       }
       fs.writeFile(
-        '../frontend/deployed/kip17TokenAddress',
+        './src/deployed/kip17TokenAddress',
         kip17Token.address,
         (err) => {
           if (err) throw err

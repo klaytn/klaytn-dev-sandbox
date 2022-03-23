@@ -1,14 +1,14 @@
 {
-  "name": "klaytn-contract",
+  "name": "klaytn-sandbox",
   "version": "1.0.0",
-  "description": "various contracts for Klaytn",
-  "repository": "https://github.com/klaytn/klaytn-contracts.git",
+  "description": "Sample contracts for Klaytn Sandbox",
+  "repository": "https://github.com/Krustuniverse-Klaytn-Group/klaytn-dev-sandbox.git",
   "author": "Klaytn",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/klaytn/klaytn-contracts/issues"
+    "url": "https://github.com/Krustuniverse-Klaytn-Group/issues"
   },
-  "homepage": "https://github.com/klaytn/klaytn-contracts",
+  "homepage": "https://github.com/Krustuniverse-Klaytn-Group",
   "scripts": {
     "build": "truffle compile",
     "test": "concurrently --success first --kill-others \"yarn run:ganache\" \"yarn test:ganache\"",
@@ -24,7 +24,13 @@
     "test:klaytn": "truffle test --network klaytn",
     "deploy:klaytn": "truffle deploy --network klaytn",
     "deploy:baobab": "truffle deploy --network baobab",
-    "deploy:cypress": "truffle deploy --network cypress"
+    "deploy:cypress": "truffle deploy --network cypress",
+    "deploy:baobab:kip7": "truffle migrate --f 1 --to 2 --network baobab",
+    "deploy:baobab:kip17": "truffle migrate --f 3 --to 3 --network baobab",
+    "deploy:baobab:kip37": "truffle migrate --f 4 --to 4 --network baobab",
+    "deploy:klaytn:kip7": "truffle migrate --f 1 --to 2 --network klaytn",
+    "deploy:klaytn:kip17": "truffle migrate --f 3 --to 3 --network klaytn",
+    "deploy:klaytn:kip37": "truffle migrate --f 4 --to 4 --network klaytn"
   },
   "dependencies": {
     "caver-js": "^1.5.0",
