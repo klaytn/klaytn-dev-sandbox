@@ -42,21 +42,25 @@ To remove log files, run `npm run run:klaytn:cleanlog`.
 
 ## Deploying a contract to the local network
 
-1. To deploy a contract, please modify [2_contract_migration.js](./contracts/migrations/2_contract_migration.js). The file deploys a KIP7 contract.
-2. To deploy additional contracts add migrations file [3_contract_migration.js] similar to [2_contract_migration.js] to deploy additional contracts
-3. Execute the following command to deploy the local network.
+1. To deploy a contract, execute any one of the following command to deploy the local network.
 
+Deploy kip7 contract 
 ```bash
-$ npm run deploy:klaytn
+$ npm run deploy:klaytn:kip7
 ```
+
+Deploy kip1 contract 
+```bash
+$ npm run deploy:klaytn:kip17
+```
+
+Deploy kip37 contract 
+```bash
+$ npm run deploy:klaytn:kip37
+```
+
 
 ## Deploying a contract to Baobab
-
-```bash
-$ npm run deploy:baobab
-```
-
-### Using an EN
 
 Update `privateKey` and `URL` in .env file for test network `baobab` of [truffle-config.js](./truffle-config.js).
 
@@ -71,40 +75,13 @@ Update `privateKey` and `URL` in .env file for test network `baobab` of [truffle
     },
 ```
 
-### Using KAS
-
-Also, you can use [KAS](http://www.klaytnapi.com) instead of your local Node. Please refer to `kasBaobab` as shown below.
-In this case, you need to update `privateKey`, `accessKeyId`, and `secretAccessKey` in .env file .
-
-**NOTE**: As of Feb 2021, "Using KAS" is not supported yet.
-
-```js
-...
-    kasBaobab: {
-      provider: () => {
-        const option = {
-          headers: [
-            { name: 'Authorization', value: 'Basic ' + Buffer.from(accessKeyId + ':' + secretAccessKey).toString('base64') },
-            { name: 'x-chain-id', value: '1001' }
-          ],
-          keepAlive: false,
-        }
-        return new HDWalletProvider(privateKey, new Caver.providers.HttpProvider(kasTestnetApiUrl, option))
-      },
-      network_id: '1001', //Klaytn baobab testnet's network id
-      gas: '8500000',
-      gasPrice:'25000000000'
-    },
+```bash
+$ npm run deploy:baobab:<contractname>
 ```
 
-# Create a UI 
-
-/frontend is the boiler plate code to create UI for the contract. This code can be modified to play around with.
-Once the contracts are deployed the contract ABI and deployed contract address is written to file under 
-/frontend/deployed folder  
+### Run the Dapp
 
 ```
-dev
-├── backend
-├── frontend
+cd src/
+npm run dev
 ```

@@ -1,8 +1,0 @@
-node_modules
-privateKeys.js
-package-lock.json
-test/local-klaytn-deploy
-build
-.DS_Store
-.env
-test/*.log
