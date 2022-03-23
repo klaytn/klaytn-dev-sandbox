@@ -27,7 +27,6 @@ const KIP7 = ({ kip7 }: props) => {
     formState: { errors },
   } = useForm<FormData>()
 
-  console.log('test')
   const getWalletBalance = async () => {
     const userBalance = await kip7.methods.balanceOf(connectedAddress).call()
     setKip7Balance(userBalance)
