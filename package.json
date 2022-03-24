@@ -1,7 +1,7 @@
 {
   "name": "klaytn-dev-sandbox",
   "version": "1.0.0",
-  "description": "Sample contracts for Klaytn Sandbox",
+  "description": "A developer sandbox with sample DApp and smart contracts for the developer community of Klaytn blockchain",
   "repository": "https://github.com/Krustuniverse-Klaytn-Group/klaytn-dev-sandbox.git",
   "author": "Klaytn",
   "license": "MIT",
