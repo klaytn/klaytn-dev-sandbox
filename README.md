@@ -61,7 +61,7 @@ Deploy kip37 contract
 $ npm run deploy:klaytn:kip37
 ```
 
-## Deploying a contract to Baobab
+## Deploying a contract to Baobab Testnet
 
 Update `privateKey` and `URL` in .env file for test network `baobab` of [truffle-config.js](./truffle-config.js).
 
