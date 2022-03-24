@@ -43,7 +43,7 @@ To remove log files, run `npm run run:klaytn:cleanlog`.
 
 1. To deploy a contract, execute any one of the following command to deploy the local network.
 
-Deploy kip7 contract
+Deploy KIP-7 contract
 
 ```bash
 $ npm run deploy:klaytn:kip7
