@@ -49,7 +49,7 @@ Deploy kip7 contract
 $ npm run deploy:klaytn:kip7
 ```
 
-Deploy kip1 contract
+Deploy KIP-17 contract
 
 ```bash
 $ npm run deploy:klaytn:kip17
