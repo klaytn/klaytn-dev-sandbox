@@ -20,6 +20,7 @@ const Transfer = () => {
     metamaskAddress,
     kaikasAddress,
     currentWallet,
+    metamaskCaver,
   } = useContext(providerContext)
   const [metamaskBalance, setMetamaskBalace] = useState<number>()
   const [kaikasBalance, setKaikasBalance] = useState<any>()
@@ -135,6 +136,16 @@ const Transfer = () => {
     }
   }
 
+  const getMetamaskCaverBalance = async () => {
+    const balance = await metamaskCaver.klay.getBalance(metamaskAddress)
+    if (balance) {
+      const ether = metamaskCaver.utils.convertFromPeb(balance, 'KLAY')
+      setMetamaskBalace(ether)
+    } else {
+      console.log('no balance')
+    }
+  }
+
   const validateValue = (input: any) => {
     if (metamaskBalance && input > metamaskBalance) {
       return false
@@ -142,6 +153,12 @@ const Transfer = () => {
       return true
     }
   }
+
+  useEffect(() => {
+    if (metamaskCaver) {
+      getMetamaskCaverBalance()
+    }
+  }, [metamaskCaver])
 
   useEffect(() => {
     if (klaytnProvider && kaikasAddress) {

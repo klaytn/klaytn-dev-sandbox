@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import TransferKlay from '../components/TransferKlay'
 
-const Transfers: NextPage = () => {
+const Wallet: NextPage = () => {
   return (
     <div className="mt-20">
       <TransferKlay />
@@ -9,4 +9,4 @@ const Transfers: NextPage = () => {
   )
 }
 
-export default Transfers
+export default Wallet

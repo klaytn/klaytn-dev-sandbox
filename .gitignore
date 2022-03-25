@@ -50,7 +50,15 @@ artifacts
 .DS_Store
 
 #Deployment files
-frontend/deployed/
+src/deployed/
 
-#log files
-backend/network/*.log
+#network log files
+network/local-klaytn-deploy/
+test/*.log
+network/*.log
+
+#contract build files 
+build
+
+#local network privatekey
+privateKeys.js
