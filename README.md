@@ -80,7 +80,7 @@ Update `privateKey` and `URL` in .env file for test network `baobab` of [truffle
 $ npm run deploy:baobab:<contractname>
 ```
 
-# Run the Frontend
+## Run the Frontend
 
 Starting from the root folder, run the following:
 
@@ -89,3 +89,15 @@ cd src
 npm install
 npm run dev
 ```
+
+## Want to Contribute to Klaytn Dev Sandbox? <a id="want-to-contribute"></a>
+
+In line with our commitment to decentralization, all Klaytn codebase and its documentations are completely open source. Klaytn always welcomes your contribution. Anyone can view, edit, fix its contents and make suggestions. You can either create a pull request on GitHub or use GitBook. Make sure to sign our [Contributor License Agreement (CLA)](https://cla-assistant.io/klaytn/klaytn-dev-sandbox) first and there are also a few guidelines our contributors would check out before contributing:
+
+- [Contribution Guide](./CONTRIBUTING.md)
+- [License](./LICENSE)
+- [Code of Conducts](./code-of-conduct.md)
+
+## Need Help? <a href="#need-help" id="need-help"></a>
+
+If you have any questions, please visit our [Gitter channel](https://gitter.im/klaytn/klaytn-dev-sandbox?utm_source=share-link&utm_medium=link&utm_campaign=share-link), [Klaytn Developers Forum](https://forum.klaytn.com/) and [Discord channel](https://discord.gg/mWsHFqN5Zf).
