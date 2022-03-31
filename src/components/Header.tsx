@@ -40,6 +40,20 @@ const Header = () => {
     }
   }
 
+  const detectMetamaskNetwork = () => {
+    if (ethProvider) {
+      const networkId = ethProvider.networkVersion
+      console.log('network: ', typeof networkId)
+      if (networkId === '1001') {
+        console.log('baobab')
+        setNetwork('Baobab')
+      } else if (networkId === '8217') {
+        console.log('cypress')
+        setNetwork('Cypress')
+      }
+    }
+  }
+
   const initMetamaskWallet = async () => {
     const status = ethProvider.isConnected()
     setMetamaskConnected(status)
@@ -142,10 +156,16 @@ const Header = () => {
   }, [ethProvider, metamaskConnected])
 
   useEffect(() => {
-    if (web3 && ethProvider) {
+    if (ethProvider && web3) {
+      if (!network) {
+        detectMetamaskNetwork()
+      }
+      ethProvider.on('networkChanged', function () {
+        detectMetamaskNetwork()
+      })
       getMetamaskBalance()
     }
-  }, [web3, ethProvider])
+  }, [ethProvider, web3])
 
   useEffect(() => {
     if (klaytnProvider && caver) {
