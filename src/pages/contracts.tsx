@@ -21,6 +21,16 @@ const Contracts: NextPage = ({
   const [kip17, setKip17] = useState()
   const [kip37, setKip37] = useState()
 
+  const checkMetamaskContractValidity = async () => {
+    const code = await web3.eth.getCode(kip7address)
+    console.log('eth code: ', code)
+  }
+
+  const checkCaverContractValidity = async () => {
+    const code = await caver.klay.getCode(kip7address)
+    console.log('klay code: ', code)
+  }
+
   const instantiateKlayContracts = async () => {
     if (kip7address && kip7abi) {
       const kip7Contract = new caver.klay.Contract(kip7abi, kip7address)
@@ -53,12 +63,14 @@ const Contracts: NextPage = ({
 
   useEffect(() => {
     if (web3) {
+      checkMetamaskContractValidity()
       instantiateEthContracts()
     }
   }, [web3])
 
   useEffect(() => {
     if (caver) {
+      checkCaverContractValidity()
       instantiateKlayContracts()
     }
   }, [caver])
