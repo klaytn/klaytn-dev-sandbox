@@ -96,6 +96,12 @@ Issue : Error: Private keys file has not been downloaded to the local directory!
 1. To make sure the network is running 
 
     ```lsof -i :8551```
+    ```
+    COMMAND    PID           USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+    com.docke 5371 toniyasundaram  134u  IPv6 0xd988cab51d5e3b71      0t0  TCP *:8551 (LISTEN)
+    ```
+if the network is not running then execute ```npm run run:klaytn``` and start the local network 
+
 2. Check weather privateKeys.js file is available in your root folder. If not execute the below command
 
     ```npm run run:klaytn:createAccounts```
