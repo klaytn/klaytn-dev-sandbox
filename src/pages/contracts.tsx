@@ -21,56 +21,78 @@ const Contracts: NextPage = ({
   const [kip17, setKip17] = useState()
   const [kip37, setKip37] = useState()
 
-  const checkMetamaskContractValidity = async () => {
+  const metamaskContractValidity = async () => {
     const code = await web3.eth.getCode(kip7address)
     console.log('eth code: ', code)
+    if (code === '0x') {
+      console.log(false)
+      return false
+    } else {
+      console.log(true)
+      return true
+    }
   }
 
-  const checkCaverContractValidity = async () => {
+  const caverContractValidity = async () => {
     const code = await caver.klay.getCode(kip7address)
     console.log('klay code: ', code)
+    if (code === '0x') {
+      console.log(false)
+      return false
+    } else {
+      console.log(true)
+      return true
+    }
   }
 
   const instantiateKlayContracts = async () => {
-    if (kip7address && kip7abi) {
-      const kip7Contract = new caver.klay.Contract(kip7abi, kip7address)
-      setKip7(kip7Contract)
-    }
-    if (kip17address && kip17abi) {
-      const kip17Contract = new caver.klay.Contract(kip17abi, kip17address)
-      setKip17(kip17Contract)
-    }
-    if (kip37address && kip37abi) {
-      const kip37Contract = new caver.klay.Contract(kip37abi, kip37address)
-      setKip37(kip37Contract)
+    const valid: boolean = await caverContractValidity()
+    if (valid) {
+      if (kip7address && kip7abi) {
+        const kip7Contract = new caver.klay.Contract(kip7abi, kip7address)
+        setKip7(kip7Contract)
+      }
+      if (kip17address && kip17abi) {
+        const kip17Contract = new caver.klay.Contract(kip17abi, kip17address)
+        setKip17(kip17Contract)
+      }
+      if (kip37address && kip37abi) {
+        const kip37Contract = new caver.klay.Contract(kip37abi, kip37address)
+        setKip37(kip37Contract)
+      }
+    } else {
+      alert('Please connect wallet to the network of your deployed contracts')
     }
   }
 
   const instantiateEthContracts = async () => {
-    if (kip7address && kip7abi) {
-      const kip7Contract = new web3.eth.Contract(kip7abi, kip7address)
-      setKip7(kip7Contract)
-    }
-    if (kip17address && kip17abi) {
-      const kip17Contract = new web3.eth.Contract(kip17abi, kip17address)
-      setKip17(kip17Contract)
-    }
-    if (kip37address && kip37abi) {
-      const kip37Contract = new web3.eth.Contract(kip37abi, kip37address)
-      setKip37(kip37Contract)
+    const valid: boolean = await metamaskContractValidity()
+    if (valid) {
+      if (kip7address && kip7abi) {
+        const kip7Contract = new web3.eth.Contract(kip7abi, kip7address)
+        setKip7(kip7Contract)
+      }
+      if (kip17address && kip17abi) {
+        const kip17Contract = new web3.eth.Contract(kip17abi, kip17address)
+        setKip17(kip17Contract)
+      }
+      if (kip37address && kip37abi) {
+        const kip37Contract = new web3.eth.Contract(kip37abi, kip37address)
+        setKip37(kip37Contract)
+      }
+    } else {
+      alert('Please connect wallet to the network of your deployed contracts')
     }
   }
 
   useEffect(() => {
     if (web3) {
-      checkMetamaskContractValidity()
       instantiateEthContracts()
     }
   }, [web3])
 
   useEffect(() => {
     if (caver) {
-      checkCaverContractValidity()
       instantiateKlayContracts()
     }
   }, [caver])
