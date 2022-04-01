@@ -31,8 +31,8 @@ require('dotenv').config();
 
 const accessKeyId = process.env.ACCESS_KEY_ID;
 const secretAccessKey = process.env.SECRET_ACCESS_KEY;
-const privateKey = process.env.TESTNET_PRIVATE_KEY;
 const cypressPrivateKey = process.env.MAINNET_PRIVATE_KEY;
+const testnetPrivateKey = process.env.TESTNET_PRIVATE_KEY;
 const testnetApiUrl = process.env.TESTNET_API_URL;
 const kasTestnetApiUrl = process.env.KAS_TESTNET_API_URL;
 const mainnetApiUrl = process.env.MAINNET_API_URL;
@@ -56,12 +56,12 @@ module.exports = {
     // options below to some value.
     //
     // for ganache
-    development: {
-      host: "127.0.0.1",     // Localhost (default: none)
-      port: 8545,            // Standard Ethereum port (default: none)
-      network_id: "*",       // Any network (default: none)
-      gas: 80000000
-    },
+    // development: {
+    //   host: "127.0.0.1",     // Localhost (default: none)
+    //   port: 8545,            // Standard Ethereum port (default: none)
+    //   network_id: "*",       // Any network (default: none)
+    //   gas: 80000000
+    // },
     klaytn: {
       provider: () => {
         const pks = JSON.parse(fs.readFileSync(path.resolve(__dirname)+'/privateKeys.js'))
@@ -81,7 +81,7 @@ module.exports = {
           ],
           keepAlive: false,
         }
-        return new HDWalletProvider(privateKey, new Caver.providers.HttpProvider(kasTestnetApiUrl, option))
+        return new HDWalletProvider(testnetPrivateKey, new Caver.providers.HttpProvider(kasTestnetApiUrl, option))
       },
       network_id: '1001', //Klaytn baobab testnet's network id
       gas: '8500000',
@@ -103,13 +103,13 @@ module.exports = {
       gasPrice:'25000000000'
     },
     baobab: {
-      provider: () => { return new HDWalletProvider(privateKey, testnetApiUrl) },
+      provider: () => { return new HDWalletProvider(testnetPrivateKey, testnetApiUrl) },
       network_id: '1001', //Klaytn baobab testnet's network id
       gas: '8500000',
       gasPrice: null
     },
     cypress: {
-      provider: () => { return new HDWalletProvider(privateKey, mainnetApiUrl) },
+      provider: () => { return new HDWalletProvider(cypressPrivateKey, mainnetApiUrl) },
       network_id: '8217', //Klaytn mainnet's network id
       gas: '8500000',
       gasPrice: null

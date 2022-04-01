@@ -10,8 +10,8 @@ The following packages should be installed before using this source code.
 
 - git
 - docker (Docker should be running in the background)
-- Node v10.21.0
-- Truffle v5.1.61
+- Node v16.14.0 or above
+- Truffle v5.5.7
 - jq (https://stedolan.github.io/jq/)
 
 ## Package Installation
