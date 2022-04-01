@@ -62,10 +62,17 @@ module.exports = {
     //   network_id: "*",       // Any network (default: none)
     //   gas: 80000000
     // },
+    
     klaytn: {
       provider: () => {
-        const pks = JSON.parse(fs.readFileSync(path.resolve(__dirname)+'/privateKeys.js'))
-
+        const file = path.resolve(__dirname)+'/privateKeys.js';
+        fs.access(file, fs.F_OK, (err) => {
+          if (err) {
+            console.error("Error: Private keys file has not been downloaded to the local directory! Follow the troubleshooting guide in Readme to proceed")
+            return
+          }
+        })
+        const pks = JSON.parse(fs.readFileSync(file))
         return new HDWalletProvider(pks, "http://localhost:8551", 0, pks.length)
       },
       network_id: '203', //Klaytn baobab testnet's network id
@@ -74,6 +81,7 @@ module.exports = {
     },
     kasBaobab: {
       provider: () => {
+        fileExists()
         const option = {
           headers: [
             { name: 'Authorization', value: 'Basic ' + Buffer.from(accessKeyId + ':' + secretAccessKey).toString('base64') },

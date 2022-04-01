@@ -90,6 +90,20 @@ npm install
 npm run dev
 ```
 
+### Troubleshooot
+Issue : Error: Private keys file has not been downloaded to the local directory! Follow the troubleshooting steps to proceed
+
+1. To make sure the network is running 
+
+    ```lsof -i :8551```
+2. Check weather privateKeys.js file is available in your root folder. If not execute the below command
+
+    ```
+    cd network/
+    init_accounts.sh
+    ```
+
+
 ## Want to Contribute to Klaytn Dev Sandbox? <a id="want-to-contribute"></a>
 
 In line with our commitment to decentralization, all Klaytn codebase and its documentations are completely open source. Klaytn always welcomes your contribution. Anyone can view, edit, fix its contents and make suggestions. You can either create a pull request on GitHub or use GitBook. Make sure to sign our [Contributor License Agreement (CLA)](https://cla-assistant.io/klaytn/klaytn-dev-sandbox) first and there are also a few guidelines our contributors would check out before contributing:
