@@ -14,6 +14,7 @@
     "test": "concurrently --success first --kill-others \"yarn run:ganache\" \"yarn test:ganache\"",
     "run:ganache": "ganache-cli -l 80000000 -q -k constantinople",
     "run:klaytn": "./network/prepare.sh",
+    "run:klaytn:createAccounts": "./network/init_accounts.sh",
     "run:klaytn:start": "./network/prepare.sh",
     "run:klaytn:stop": "./network/stop.sh",
     "run:klaytn:resume": "./network/resume.sh",

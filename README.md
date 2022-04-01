@@ -98,10 +98,7 @@ Issue : Error: Private keys file has not been downloaded to the local directory!
     ```lsof -i :8551```
 2. Check weather privateKeys.js file is available in your root folder. If not execute the below command
 
-    ```
-    cd network/
-    init_accounts.sh
-    ```
+    ```npm run run:klaytn:createAccounts```
 
 
 ## Want to Contribute to Klaytn Dev Sandbox? <a id="want-to-contribute"></a>
