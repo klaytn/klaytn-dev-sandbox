@@ -45,7 +45,7 @@ const Transfer = () => {
         value: caver.utils.toPeb(sendValue, 'KLAY'),
         gas: 8000000,
       })
-      console.log('txn: ', txn)
+      console.log('successfully sent tokens: ', txn)
       toast.update(id, {
         render: 'Tokens sent successfully',
         type: 'success',
@@ -71,7 +71,6 @@ const Transfer = () => {
     const id = toast.loading('Sending Tokens....', { theme: 'colored' })
     try {
       const value = web3.utils.toWei(sendValue, 'ether')
-      console.log('value: ', value)
       const txn = await ethProvider.request({
         method: 'eth_sendTransaction',
         params: [
@@ -117,8 +116,6 @@ const Transfer = () => {
     if (balance) {
       const klay = caver.utils.convertFromPeb(balance, 'KLAY')
       setKaikasBalance(klay)
-    } else {
-      console.log('no balance')
     }
   }
 
@@ -131,8 +128,6 @@ const Transfer = () => {
       const wei = web3.utils.hexToNumberString(balance)
       const ether = web3.utils.fromWei(wei, 'ether')
       setMetamaskBalace(ether)
-    } else {
-      console.log('no blaance')
     }
   }
 
@@ -141,8 +136,6 @@ const Transfer = () => {
     if (balance) {
       const ether = metamaskCaver.utils.convertFromPeb(balance, 'KLAY')
       setMetamaskBalace(ether)
-    } else {
-      console.log('no balance')
     }
   }
 

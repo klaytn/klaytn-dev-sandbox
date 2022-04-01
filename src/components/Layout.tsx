@@ -14,9 +14,6 @@ const Layout = ({ children }: { children: any }) => {
       const provider = window['klaytn']
       setKlaytnProvider(provider)
     }
-    if (typeof window.caver !== 'undefined') {
-      console.log('caver: ', window.caver)
-    }
     if (typeof window.ethereum !== 'undefined') {
       const provider = window.ethereum
       setEthProvider(provider)

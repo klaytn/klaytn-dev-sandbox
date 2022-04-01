@@ -23,24 +23,18 @@ const Contracts: NextPage = ({
 
   const metamaskContractValidity = async () => {
     const code = await web3.eth.getCode(kip7address)
-    console.log('eth code: ', code)
     if (code === '0x') {
-      console.log(false)
       return false
     } else {
-      console.log(true)
       return true
     }
   }
 
   const caverContractValidity = async () => {
     const code = await caver.klay.getCode(kip7address)
-    console.log('klay code: ', code)
     if (code === '0x') {
-      console.log(false)
       return false
     } else {
-      console.log(true)
       return true
     }
   }

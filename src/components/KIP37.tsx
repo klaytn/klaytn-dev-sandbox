@@ -43,7 +43,6 @@ const KIP37 = ({ kip37 }: props) => {
         return
       }
       const metadata = { name: name, description: description, image: image, quantity: quantity }
-      console.log('metadata: ', metadata)
       const { cid } = await client.add({ content: JSON.stringify(metadata) })
       const uri = `https://ipfs.infura.io/ipfs/${cid}`
       console.log('token URI: ', uri)

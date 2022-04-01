@@ -32,7 +32,6 @@ const WalletModal = (props: ModalProps) => {
     try {
       const accounts = await klaytnProvider.enable()
       setKaikasAddress(accounts[0])
-      console.log('accounts: ', accounts)
       const caver = new Caver(klaytnProvider)
       setCaver(caver)
       props.setWalletModal(false)

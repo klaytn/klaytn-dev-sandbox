@@ -43,13 +43,12 @@ const KIP7 = ({ kip7 }: props) => {
     const sendValue = getValues('sendValue')
     const peb = await caver.utils.toPeb(sendValue, 'KLAY')
     const gasPrice = await caver.klay.getGasPrice()
-    console.log('receiver: ', receiver, 'value:', peb)
     const id = toast.loading('Sending Tokens....', { theme: 'colored' })
     try {
       const txn = await kip7.methods
         .transfer(receiver, sendValue)
         .send({ from: connectedAddress, gasPrice: gasPrice, gas: '0xF4240' })
-      console.log('txn: ', txn)
+      console.log('successfully sent tokens: ', txn)
       toast.update(id, {
         render: 'Tokens sent successfully',
         type: 'success',

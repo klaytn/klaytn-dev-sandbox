@@ -45,10 +45,8 @@ const Header = () => {
       const networkId = ethProvider.networkVersion
       console.log('network: ', typeof networkId)
       if (networkId === '1001') {
-        console.log('baobab')
         setNetwork('Baobab')
       } else if (networkId === '8217') {
-        console.log('cypress')
         setNetwork('Cypress')
       }
     }
@@ -64,8 +62,6 @@ const Header = () => {
     if (balance) {
       const ether = web3.utils.fromWei(balance, 'ether')
       setMetamaskBalace(ether)
-    } else {
-      console.log('no balance')
     }
   }
 
@@ -74,8 +70,6 @@ const Header = () => {
     if (balance) {
       const klay = caver.utils.convertFromPeb(balance, 'KLAY')
       setKaikasBalance(klay)
-    } else {
-      console.log('no balance')
     }
   }
 
@@ -84,8 +78,6 @@ const Header = () => {
     if (balance) {
       const ether = metamaskCaver.utils.convertFromPeb(balance, 'KLAY')
       setMetamaskBalace(ether)
-    } else {
-      console.log('no balance')
     }
   }
 
@@ -260,7 +252,8 @@ const Header = () => {
                 className="form-select block w-full px-2 py-2 font-light bg-white bg-clip-padding bg-no-repeat border border-grey rounded-full transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:outline-none"
                 aria-label="Default select example"
                 value={network}
-                onChange={changeKaikasNetwork}
+                onChange={changeMetamaskNetwork}
+                // onChange={changeKaikasNetwork}
               >
                 {networks.map((env) => (
                   <option key={env}>{env}</option>
