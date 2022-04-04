@@ -5,6 +5,7 @@ DATE=$(date +%Y%m%d_%H%M%S)
 pushd $DIR
 
 ./deploy_local_network.sh &> tee.$DATE.log &
+echo "pulling klaytn image and setting up local network, this might take some time.."
 sleep 100
 ./init_accounts.sh
 

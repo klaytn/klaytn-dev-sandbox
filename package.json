@@ -14,6 +14,7 @@
     "test": "concurrently --success first --kill-others \"yarn run:ganache\" \"yarn test:ganache\"",
     "run:ganache": "ganache-cli -l 80000000 -q -k constantinople",
     "run:klaytn": "./network/prepare.sh",
+    "run:klaytn:createAccounts": "./network/init_accounts.sh",
     "run:klaytn:start": "./network/prepare.sh",
     "run:klaytn:stop": "./network/stop.sh",
     "run:klaytn:resume": "./network/resume.sh",
@@ -36,13 +37,14 @@
     "caver-js": "^1.5.0",
     "caver-js-ext-kas": "^1.0.1",
     "dotenv": "^16.0.0",
-    "truffle-hdwallet-provider-klaytn": "^1.0.13-a"
+    "truffle-hdwallet-provider-klaytn": "^1.0.13-a",
+    "web3": "^1.7.1"
   },
   "devDependencies": {
     "concurrently": "^5.3.0",
     "ganache-cli": "^6.12.1",
     "openzeppelin-test-helpers": "^0.3.2",
-    "truffle": "^5.1.61",
+    "truffle": "^5.5.7",
     "truffle-assertions": "^0.9.2"
   },
   "prettier": {

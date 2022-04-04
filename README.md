@@ -10,8 +10,8 @@ The following packages should be installed before using this source code.
 
 - git
 - docker (Docker should be running in the background)
-- Node v10.21.0
-- Truffle v5.1.61
+- Node v16.14.0 or above
+- Truffle v5.5.7
 - jq (https://stedolan.github.io/jq/)
 
 ## Package Installation
@@ -89,6 +89,23 @@ cd src
 npm install
 npm run dev
 ```
+
+### Troubleshooot
+Issue : Error: Private keys file has not been downloaded to the local directory! Follow the troubleshooting steps to proceed
+
+1. To make sure the network is running 
+
+    ```
+    $ lsof -i :8551
+    COMMAND    PID      USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+    com.docke 5371      xxx  134u  IPv6 0xd988cab51d5e3b71      0t0  TCP *:8551 (LISTEN)
+    ```
+if the network is not running then execute ```npm run run:klaytn``` and start the local network 
+
+2. Check whether privateKeys.js file is available in your root folder. If not, execute the below command
+
+    ```npm run run:klaytn:createAccounts```
+
 
 ## Want to Contribute to Klaytn Dev Sandbox? <a id="want-to-contribute"></a>
 
