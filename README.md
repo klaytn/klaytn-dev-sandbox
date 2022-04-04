@@ -102,7 +102,7 @@ Issue : Error: Private keys file has not been downloaded to the local directory!
     ```
 if the network is not running then execute ```npm run run:klaytn``` and start the local network 
 
-2. Check weather privateKeys.js file is available in your root folder. If not execute the below command
+2. Check whether privateKeys.js file is available in your root folder. If not, execute the below command
 
     ```npm run run:klaytn:createAccounts```
 
