@@ -95,8 +95,8 @@ Issue : Error: Private keys file has not been downloaded to the local directory!
 
 1. To make sure the network is running 
 
-    ```lsof -i :8551```
     ```
+    $ lsof -i :8551
     COMMAND    PID      USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
     com.docke 5371      xxx  134u  IPv6 0xd988cab51d5e3b71      0t0  TCP *:8551 (LISTEN)
     ```
