@@ -34,7 +34,11 @@ const Header = () => {
       if (networkId === 1001) {
         setNetwork('Baobab')
       } else if (networkId === 8217) {
-        toast.error('Please connect to the Baobab testnet', { theme: 'colored' })
+        setNetwork('Cypress')
+        toast.error('Please connect to the Baobab Testnet to use this sandbox', {
+          theme: 'colored',
+          autoClose: false,
+        })
       }
     }
   }
@@ -46,7 +50,11 @@ const Header = () => {
       if (networkId === '1001') {
         setNetwork('Baobab')
       } else if (networkId === '8217') {
-        toast.error('Please connect to the Baobab testnet', { theme: 'colored' })
+        setNetwork('Cypress')
+        toast.error('Please connect to the Baobab Testnet to use this sandbox', {
+          theme: 'colored',
+          autoClose: false,
+        })
       }
     }
   }

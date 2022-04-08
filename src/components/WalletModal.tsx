@@ -42,7 +42,7 @@ const WalletModal = (props: ModalProps) => {
           autoClose: false,
         })
       } else {
-        toast.success('Wallet Connected', { theme: 'colored', autoClose: 3000 })
+        toast.success('Wallet Connected', { theme: 'colored', autoClose: 2000 })
       }
     } catch (error: any) {
       console.error(error.message)
@@ -65,7 +65,7 @@ const WalletModal = (props: ModalProps) => {
           autoClose: false,
         })
       } else {
-        toast.success('Wallet Connected', { theme: 'colored', autoClose: 3000 })
+        toast.success('Wallet Connected', { theme: 'colored', autoClose: 2000 })
       }
     } catch (error: any) {
       console.error(error.message)
