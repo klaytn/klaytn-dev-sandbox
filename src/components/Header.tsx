@@ -81,115 +81,6 @@ const Header = () => {
     }
   }
 
-  const changeKaikasNetwork = async (e: any) => {
-    const selected = e.target.value
-    setNetwork(selected)
-    console.log('window: ', window)
-    if (selected === 'Cypress') {
-      try {
-        await caver.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: '0x2019' }],
-        })
-      } catch (err: any) {
-        if (err.code === 4902) {
-          try {
-            await caver.request({
-              method: 'wallet_addEthereumChain',
-              params: [
-                {
-                  chainId: '0x2019',
-                  chainName: 'Klaytn Cypress',
-                  rpcUrls: ['https://public-node-api.klaytnapi.com/v1/cypress'],
-                },
-              ],
-            })
-          } catch (addError) {
-            console.error(addError)
-          }
-        }
-      }
-    } else if (selected === 'Baobab') {
-      try {
-        await caver.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: '0x3e9' }],
-        })
-      } catch (err: any) {
-        if (err.code === 4902) {
-          try {
-            await caver.request({
-              method: 'wallet_addEthereumChain',
-              params: [
-                {
-                  chainId: '0x3e9',
-                  chainName: 'Klaytn Baobab',
-                  rpcUrls: ['https://public-node-api.klaytnapi.com/v1/baobab'],
-                },
-              ],
-            })
-          } catch (addError) {
-            console.error(addError)
-          }
-        }
-      }
-    }
-  }
-
-  const changeMetamaskNetwork = async (e: any) => {
-    const selected = e.target.value
-    setNetwork(selected)
-    if (selected === 'Cypress') {
-      try {
-        await ethProvider.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: '0x2019' }],
-        })
-      } catch (err: any) {
-        if (err.code === 4902) {
-          try {
-            await ethProvider.request({
-              method: 'wallet_addEthereumChain',
-              params: [
-                {
-                  chainId: '0x2019',
-                  chainName: 'Klaytn Cypress',
-                  rpcUrls: ['https://public-node-api.klaytnapi.com/v1/cypress'],
-                },
-              ],
-            })
-          } catch (addError) {
-            console.error(addError)
-          }
-        }
-      }
-    } else if (selected === 'Baobab') {
-      try {
-        await ethProvider.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: '0x3e9' }],
-        })
-      } catch (err: any) {
-        if (err.code === 4902) {
-          try {
-            await ethProvider.request({
-              method: 'wallet_addEthereumChain',
-              params: [
-                {
-                  chainId: '0x3e9',
-                  chainName: 'Klaytn Baobab',
-                  rpcUrls: ['https://public-node-api.klaytnapi.com/v1/baobab'],
-                },
-              ],
-            })
-          } catch (addError) {
-            console.error(addError)
-          }
-        }
-      }
-    }
-  }
-
   useEffect(() => {
     if (metamaskCaver) {
       getMetamaskCaverBalance()
@@ -245,20 +136,7 @@ const Header = () => {
               {currentWallet === 'Kaikas' && kaikasBalance
                 ? shortenBalance(kaikasBalance)
                 : metamaskBalance && shortenBalance(metamaskBalance)}{' '}
-              KLAY
-            </div>
-            <div className="xl:w-84">
-              <select
-                className="form-select block w-full px-2 py-2 font-light bg-white bg-clip-padding bg-no-repeat border border-grey rounded-full transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:outline-none"
-                aria-label="Default select example"
-                value={network}
-                onChange={changeMetamaskNetwork}
-                // onChange={changeKaikasNetwork}
-              >
-                {networks.map((env) => (
-                  <option key={env}>{env}</option>
-                ))}
-              </select>
+              0.0 KLAY
             </div>
             <li className="mx-6">
               {kaikasAddress && (
