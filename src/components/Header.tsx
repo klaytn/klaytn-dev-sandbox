@@ -31,14 +31,13 @@ const Header = () => {
   const detectKaikasNetwork = () => {
     if (klaytnProvider) {
       const networkId = klaytnProvider.networkVersion
-      if (networkId === 1001) {
-        setNetwork('Baobab')
-      } else if (networkId === 8217) {
-        setNetwork('Cypress')
+      if (networkId !== 1001) {
         toast.error('Please connect to the Baobab Testnet to use this sandbox', {
           theme: 'colored',
           autoClose: false,
         })
+      } else {
+        setNetwork('Baobab')
       }
     }
   }
@@ -47,14 +46,13 @@ const Header = () => {
     if (ethProvider) {
       const networkId = ethProvider.networkVersion
       console.log('network: ', typeof networkId)
-      if (networkId === '1001') {
-        setNetwork('Baobab')
-      } else if (networkId === '8217') {
-        setNetwork('Cypress')
+      if (networkId !== 1001) {
         toast.error('Please connect to the Baobab Testnet to use this sandbox', {
           theme: 'colored',
           autoClose: false,
         })
+      } else {
+        setNetwork('Baobab')
       }
     }
   }

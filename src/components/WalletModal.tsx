@@ -36,7 +36,7 @@ const WalletModal = (props: ModalProps) => {
       props.setWalletModal(false)
       setCurrentWallet('Kaikas')
       const networkId = klaytnProvider.networkVersion
-      if (networkId === 8217) {
+      if (networkId !== 1001) {
         toast.error('Please connect to the Baobab Testnet to use this sandbox', {
           theme: 'colored',
           autoClose: false,
@@ -59,7 +59,7 @@ const WalletModal = (props: ModalProps) => {
       props.setWalletModal(false)
       setCurrentWallet('Metamask')
       const networkId = ethProvider.networkVersion
-      if (networkId === '8217') {
+      if (networkId !== '1001') {
         toast.error('Please connect to the Baobab Testnet to use this sandbox', {
           theme: 'colored',
           autoClose: false,

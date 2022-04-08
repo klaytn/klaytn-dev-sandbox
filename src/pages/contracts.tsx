@@ -6,6 +6,7 @@ import KIP7 from '../components/KIP7'
 import KIP17 from '../components/KIP17'
 import KIP37 from '../components/KIP37'
 import providerContext from '../context/context'
+import { ToastContainer, toast } from 'react-toastify'
 
 const Contracts: NextPage = ({
   kip7abi,
@@ -54,9 +55,10 @@ const Contracts: NextPage = ({
         const kip37Contract = new caver.klay.Contract(kip37abi, kip37address)
         setKip37(kip37Contract)
       }
-    } else {
-      alert('Please connect wallet to the network of your deployed contracts')
     }
+    // else {
+    //   alert('Please connect wallet to the network of your deployed contracts')
+    // }
   }
 
   const instantiateEthContracts = async () => {
@@ -74,9 +76,10 @@ const Contracts: NextPage = ({
         const kip37Contract = new web3.eth.Contract(kip37abi, kip37address)
         setKip37(kip37Contract)
       }
-    } else {
-      alert('Please connect wallet to the network of your deployed contracts')
     }
+    // else {
+    //   alert('Please connect wallet to the network of your deployed contracts')
+    // }
   }
 
   useEffect(() => {
@@ -93,6 +96,17 @@ const Contracts: NextPage = ({
 
   return (
     <div className="mt-10">
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="flex justify-center space-x-10 text-2xl font-bold text-gray-800">
         {currentContract === 'KIP7' ? (
           <button
