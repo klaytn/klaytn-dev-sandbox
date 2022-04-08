@@ -108,7 +108,6 @@ const KIP37 = ({ kip37 }: props) => {
             {...register('quantity', { required: true })}
           />
         </div>
-
         {imageURL ? (
           <div className="flex justify-center">
             <img src={imageURL} width="300px" height="300px" />

@@ -7,7 +7,7 @@ import { DocumentDuplicateIcon } from '@heroicons/react/outline'
 import { shortenAddress, shortenBalance } from '../helpers'
 import Subheader from './Subheader'
 import brandImg from '../public/brandmark.svg'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 
 const Header = () => {
   const {
@@ -19,11 +19,8 @@ const Header = () => {
     kaikasAddress,
     currentWallet,
     metamaskCaver,
-    setKaikasAddress,
-    setMetamaskAddress,
   } = useContext(providerContext)
   const [walletModal, setWalletModal] = useState<boolean>(false)
-  const [network, setNetwork] = useState<any>()
   const [metamaskBalance, setMetamaskBalace] = useState<string>()
   const [kaikasBalance, setKaikasBalance] = useState<any>()
   const [metamaskConnected, setMetamaskConnected] = useState<boolean>(false)
@@ -36,8 +33,6 @@ const Header = () => {
           theme: 'colored',
           autoClose: false,
         })
-      } else {
-        setNetwork('Baobab')
       }
     }
   }
@@ -51,8 +46,6 @@ const Header = () => {
           theme: 'colored',
           autoClose: false,
         })
-      } else {
-        setNetwork('Baobab')
       }
     }
   }
