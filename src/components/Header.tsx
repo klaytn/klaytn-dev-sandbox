@@ -7,8 +7,7 @@ import { DocumentDuplicateIcon } from '@heroicons/react/outline'
 import { shortenAddress, shortenBalance } from '../helpers'
 import Subheader from './Subheader'
 import brandImg from '../public/brandmark.svg'
-
-const networks = ['Baobab', 'Cypress']
+import { ToastContainer, toast } from 'react-toastify'
 
 const Header = () => {
   const {
@@ -35,7 +34,7 @@ const Header = () => {
       if (networkId === 1001) {
         setNetwork('Baobab')
       } else if (networkId === 8217) {
-        setNetwork('Cypress')
+        toast.error('Please connect to the Baobab testnet', { theme: 'colored' })
       }
     }
   }
@@ -47,7 +46,7 @@ const Header = () => {
       if (networkId === '1001') {
         setNetwork('Baobab')
       } else if (networkId === '8217') {
-        setNetwork('Cypress')
+        toast.error('Please connect to the Baobab testnet', { theme: 'colored' })
       }
     }
   }
@@ -95,9 +94,6 @@ const Header = () => {
 
   useEffect(() => {
     if (ethProvider && web3) {
-      if (!network) {
-        detectMetamaskNetwork()
-      }
       ethProvider.on('networkChanged', function () {
         detectMetamaskNetwork()
       })
@@ -107,9 +103,6 @@ const Header = () => {
 
   useEffect(() => {
     if (klaytnProvider && caver) {
-      if (!network) {
-        detectKaikasNetwork()
-      }
       klaytnProvider.on('networkChanged', function () {
         detectKaikasNetwork()
       })

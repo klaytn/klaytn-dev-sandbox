@@ -4,17 +4,6 @@ import { ToastContainer, toast } from 'react-toastify'
 const Home: NextPage = () => {
   return (
     <div className="flex justify-center mt-20">
-      <ToastContainer
-        position="bottom-right"
-        autoClose={3000}
-        hideProgressBar
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
       <div className="space-y-4 w-1/3">
         <h1 className="text-2xl font-semibold">How to use the Sandbox:</h1>
         <ul className="space-y-3">

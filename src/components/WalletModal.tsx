@@ -25,7 +25,6 @@ const WalletModal = (props: ModalProps) => {
     setWeb3,
     setCaver,
     setCurrentWallet,
-    setMetamaskCaver,
   } = useContext(providerContext)
 
   const connectKaikas = async () => {
@@ -36,7 +35,15 @@ const WalletModal = (props: ModalProps) => {
       setCaver(caver)
       props.setWalletModal(false)
       setCurrentWallet('Kaikas')
-      toast.success('Wallet Connected', { theme: 'colored' })
+      const networkId = klaytnProvider.networkVersion
+      if (networkId === 8217) {
+        toast.error('Please connect to the Baobab Testnet to use this sandbox', {
+          theme: 'colored',
+          autoClose: false,
+        })
+      } else {
+        toast.success('Wallet Connected', { theme: 'colored', autoClose: 3000 })
+      }
     } catch (error: any) {
       console.error(error.message)
       toast.error(error.message, { theme: 'colored' })
@@ -51,22 +58,15 @@ const WalletModal = (props: ModalProps) => {
       setWeb3(web3)
       props.setWalletModal(false)
       setCurrentWallet('Metamask')
-      toast.success('Wallet Connected', { theme: 'colored' })
-    } catch (error: any) {
-      console.error(error.message)
-      toast.error(error.message, { theme: 'colored' })
-    }
-  }
-
-  const connectMetamaskWithCaver = async () => {
-    try {
-      const account = await ethProvider.request({ method: 'eth_requestAccounts' })
-      setMetamaskAddress(account[0])
-      const caver = new Caver(klaytnProvider)
-      setMetamaskCaver(caver)
-      props.setWalletModal(false)
-      setCurrentWallet('Metamask')
-      toast.success('Wallet Connected', { theme: 'colored' })
+      const networkId = ethProvider.networkVersion
+      if (networkId === '8217') {
+        toast.error('Please connect to the Baobab Testnet to use this sandbox', {
+          theme: 'colored',
+          autoClose: false,
+        })
+      } else {
+        toast.success('Wallet Connected', { theme: 'colored', autoClose: 3000 })
+      }
     } catch (error: any) {
       console.error(error.message)
       toast.error(error.message, { theme: 'colored' })
