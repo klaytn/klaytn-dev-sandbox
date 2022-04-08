@@ -136,7 +136,7 @@ const Header = () => {
               {currentWallet === 'Kaikas' && kaikasBalance
                 ? shortenBalance(kaikasBalance)
                 : metamaskBalance && shortenBalance(metamaskBalance)}{' '}
-              0.0 KLAY
+              KLAY
             </div>
             <li className="mx-6">
               {kaikasAddress && (

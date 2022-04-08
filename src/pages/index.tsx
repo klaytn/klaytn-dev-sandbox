@@ -42,6 +42,10 @@ const Home: NextPage = () => {
             7. Click on the <span className="font-semibold">Contracts</span> tab and interact with
             the contracts you have just deployed!
           </li>
+          <li>
+            8. To view your wallet balance and conveniently send some testnet KLAY, navigate to the{' '}
+            <span className="font-semibold">Wallet</span> tab.
+          </li>
         </ul>
       </div>
     </div>
