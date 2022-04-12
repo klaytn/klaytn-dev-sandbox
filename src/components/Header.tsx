@@ -7,8 +7,7 @@ import { DocumentDuplicateIcon } from '@heroicons/react/outline'
 import { shortenAddress, shortenBalance } from '../helpers'
 import Subheader from './Subheader'
 import brandImg from '../public/brandmark.svg'
-
-const networks = ['Baobab', 'Cypress']
+import { toast } from 'react-toastify'
 
 const Header = () => {
   const {
@@ -20,11 +19,8 @@ const Header = () => {
     kaikasAddress,
     currentWallet,
     metamaskCaver,
-    setKaikasAddress,
-    setMetamaskAddress,
   } = useContext(providerContext)
   const [walletModal, setWalletModal] = useState<boolean>(false)
-  const [network, setNetwork] = useState<any>()
   const [metamaskBalance, setMetamaskBalace] = useState<string>()
   const [kaikasBalance, setKaikasBalance] = useState<any>()
   const [metamaskConnected, setMetamaskConnected] = useState<boolean>(false)
@@ -32,10 +28,24 @@ const Header = () => {
   const detectKaikasNetwork = () => {
     if (klaytnProvider) {
       const networkId = klaytnProvider.networkVersion
-      if (networkId === 1001) {
-        setNetwork('Baobab')
-      } else if (networkId === 8217) {
-        setNetwork('Cypress')
+      if (networkId !== 1001) {
+        toast.error('Please connect to the Baobab Testnet to use this sandbox', {
+          theme: 'colored',
+          autoClose: false,
+        })
+      }
+    }
+  }
+
+  const detectMetamaskNetwork = () => {
+    if (ethProvider) {
+      const networkId = ethProvider.networkVersion
+      console.log('network: ', typeof networkId)
+      if (networkId !== 1001) {
+        toast.error('Please connect to the Baobab Testnet to use this sandbox', {
+          theme: 'colored',
+          autoClose: false,
+        })
       }
     }
   }
@@ -50,8 +60,6 @@ const Header = () => {
     if (balance) {
       const ether = web3.utils.fromWei(balance, 'ether')
       setMetamaskBalace(ether)
-    } else {
-      console.log('no balance')
     }
   }
 
@@ -60,8 +68,6 @@ const Header = () => {
     if (balance) {
       const klay = caver.utils.convertFromPeb(balance, 'KLAY')
       setKaikasBalance(klay)
-    } else {
-      console.log('no balance')
     }
   }
 
@@ -70,62 +76,6 @@ const Header = () => {
     if (balance) {
       const ether = metamaskCaver.utils.convertFromPeb(balance, 'KLAY')
       setMetamaskBalace(ether)
-    } else {
-      console.log('no balance')
-    }
-  }
-
-  const changeMetamaskNetwork = async (e: any) => {
-    const selected = e.target.value
-    setNetwork(selected)
-    if (selected === 'Cypress') {
-      try {
-        await ethProvider.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: '0x2019' }],
-        })
-      } catch (err: any) {
-        if (err.code === 4902) {
-          try {
-            await ethProvider.request({
-              method: 'wallet_addEthereumChain',
-              params: [
-                {
-                  chainId: '0x2019',
-                  chainName: 'Klaytn Cypress',
-                  rpcUrls: ['https://public-node-api.klaytnapi.com/v1/cypress'],
-                },
-              ],
-            })
-          } catch (addError) {
-            console.error(addError)
-          }
-        }
-      }
-    } else if (selected === 'Baobab') {
-      try {
-        await ethProvider.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: '0x3e9' }],
-        })
-      } catch (err: any) {
-        if (err.code === 4902) {
-          try {
-            await ethProvider.request({
-              method: 'wallet_addEthereumChain',
-              params: [
-                {
-                  chainId: '0x3e9',
-                  chainName: 'Klaytn Baobab',
-                  rpcUrls: ['https://public-node-api.klaytnapi.com/v1/baobab'],
-                },
-              ],
-            })
-          } catch (addError) {
-            console.error(addError)
-          }
-        }
-      }
     }
   }
 
@@ -142,16 +92,16 @@ const Header = () => {
   }, [ethProvider, metamaskConnected])
 
   useEffect(() => {
-    if (web3 && ethProvider) {
+    if (ethProvider && web3) {
+      ethProvider.on('networkChanged', function () {
+        detectMetamaskNetwork()
+      })
       getMetamaskBalance()
     }
-  }, [web3, ethProvider])
+  }, [ethProvider, web3])
 
   useEffect(() => {
     if (klaytnProvider && caver) {
-      if (!network) {
-        detectKaikasNetwork()
-      }
       klaytnProvider.on('networkChanged', function () {
         detectKaikasNetwork()
       })
@@ -179,18 +129,6 @@ const Header = () => {
                 ? shortenBalance(kaikasBalance)
                 : metamaskBalance && shortenBalance(metamaskBalance)}{' '}
               KLAY
-            </div>
-            <div className="xl:w-84">
-              <select
-                className="form-select block w-full px-2 py-2 font-light bg-white bg-clip-padding bg-no-repeat border border-grey rounded-full transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:outline-none"
-                aria-label="Default select example"
-                value={network}
-                onChange={changeMetamaskNetwork}
-              >
-                {networks.map((env) => (
-                  <option key={env}>{env}</option>
-                ))}
-              </select>
             </div>
             <li className="mx-6">
               {kaikasAddress && (

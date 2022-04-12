@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { useState, useEffect, useContext } from 'react'
 import providerContext from '../context/context'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { shortenAddress, shortenBalance, validateAddress } from '../helpers'
 
@@ -23,7 +23,6 @@ const KIP7 = ({ kip7 }: props) => {
     register,
     handleSubmit,
     getValues,
-    setValue,
     formState: { errors },
   } = useForm<FormData>()
 
@@ -33,7 +32,6 @@ const KIP7 = ({ kip7 }: props) => {
   }
 
   const getTokenInfo = async () => {
-    const name = await kip7.methods.name().call()
     const symbol = await kip7.methods.symbol().call()
     setTokenSymbol(symbol)
   }
@@ -41,15 +39,13 @@ const KIP7 = ({ kip7 }: props) => {
   const transferTokens = async () => {
     const receiver = getValues('receivingAddress')
     const sendValue = getValues('sendValue')
-    const peb = await caver.utils.toPeb(sendValue, 'KLAY')
     const gasPrice = await caver.klay.getGasPrice()
-    console.log('receiver: ', receiver, 'value:', peb)
     const id = toast.loading('Sending Tokens....', { theme: 'colored' })
     try {
       const txn = await kip7.methods
         .transfer(receiver, sendValue)
         .send({ from: connectedAddress, gasPrice: gasPrice, gas: '0xF4240' })
-      console.log('txn: ', txn)
+      console.log('successfully sent tokens: ', txn)
       toast.update(id, {
         render: 'Tokens sent successfully',
         type: 'success',

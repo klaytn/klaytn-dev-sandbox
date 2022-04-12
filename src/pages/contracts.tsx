@@ -6,6 +6,7 @@ import KIP7 from '../components/KIP7'
 import KIP17 from '../components/KIP17'
 import KIP37 from '../components/KIP37'
 import providerContext from '../context/context'
+import { ToastContainer, toast } from 'react-toastify'
 
 const Contracts: NextPage = ({
   kip7abi,
@@ -21,34 +22,64 @@ const Contracts: NextPage = ({
   const [kip17, setKip17] = useState()
   const [kip37, setKip37] = useState()
 
-  const instantiateKlayContracts = async () => {
-    if (kip7address && kip7abi) {
-      const kip7Contract = new caver.klay.Contract(kip7abi, kip7address)
-      setKip7(kip7Contract)
-    }
-    if (kip17address && kip17abi) {
-      const kip17Contract = new caver.klay.Contract(kip17abi, kip17address)
-      setKip17(kip17Contract)
-    }
-    if (kip37address && kip37abi) {
-      const kip37Contract = new caver.klay.Contract(kip37abi, kip37address)
-      setKip37(kip37Contract)
+  const metamaskContractValidity = async () => {
+    const code = await web3.eth.getCode(kip7address)
+    if (code === '0x') {
+      return false
+    } else {
+      return true
     }
   }
 
+  const caverContractValidity = async () => {
+    const code = await caver.klay.getCode(kip7address)
+    if (code === '0x') {
+      return false
+    } else {
+      return true
+    }
+  }
+
+  const instantiateKlayContracts = async () => {
+    const valid: boolean = await caverContractValidity()
+    if (valid) {
+      if (kip7address && kip7abi) {
+        const kip7Contract = new caver.klay.Contract(kip7abi, kip7address)
+        setKip7(kip7Contract)
+      }
+      if (kip17address && kip17abi) {
+        const kip17Contract = new caver.klay.Contract(kip17abi, kip17address)
+        setKip17(kip17Contract)
+      }
+      if (kip37address && kip37abi) {
+        const kip37Contract = new caver.klay.Contract(kip37abi, kip37address)
+        setKip37(kip37Contract)
+      }
+    }
+    // else {
+    //   alert('Please connect wallet to the network of your deployed contracts')
+    // }
+  }
+
   const instantiateEthContracts = async () => {
-    if (kip7address && kip7abi) {
-      const kip7Contract = new web3.eth.Contract(kip7abi, kip7address)
-      setKip7(kip7Contract)
+    const valid: boolean = await metamaskContractValidity()
+    if (valid) {
+      if (kip7address && kip7abi) {
+        const kip7Contract = new web3.eth.Contract(kip7abi, kip7address)
+        setKip7(kip7Contract)
+      }
+      if (kip17address && kip17abi) {
+        const kip17Contract = new web3.eth.Contract(kip17abi, kip17address)
+        setKip17(kip17Contract)
+      }
+      if (kip37address && kip37abi) {
+        const kip37Contract = new web3.eth.Contract(kip37abi, kip37address)
+        setKip37(kip37Contract)
+      }
     }
-    if (kip17address && kip17abi) {
-      const kip17Contract = new web3.eth.Contract(kip17abi, kip17address)
-      setKip17(kip17Contract)
-    }
-    if (kip37address && kip37abi) {
-      const kip37Contract = new web3.eth.Contract(kip37abi, kip37address)
-      setKip37(kip37Contract)
-    }
+    // else {
+    //   alert('Please connect wallet to the network of your deployed contracts')
+    // }
   }
 
   useEffect(() => {
@@ -65,6 +96,17 @@ const Contracts: NextPage = ({
 
   return (
     <div className="mt-10">
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="flex justify-center space-x-10 text-2xl font-bold text-gray-800">
         {currentContract === 'KIP7' ? (
           <button

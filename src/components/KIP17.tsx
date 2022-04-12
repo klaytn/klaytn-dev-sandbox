@@ -41,14 +41,13 @@ const KIP17 = ({ kip17 }: props) => {
         return
       }
       const metadata = { name: name, description: description, image: image }
-      console.log('metadata: ', metadata)
       const { cid } = await client.add({ content: JSON.stringify(metadata) })
       const uri = `https://ipfs.infura.io/ipfs/${cid}`
       console.log('token URI: ', uri)
       const mintTxn = await kip17.methods
         .mintNFT(kaikasAddress, uri)
         .send({ from: kaikasAddress, gas: '0xF4240' })
-      console.log('mint txn: ', mintTxn)
+      console.log('successfully minted token: ', mintTxn)
     }
   }
 
