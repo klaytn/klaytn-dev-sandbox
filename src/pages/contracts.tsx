@@ -32,6 +32,7 @@ const Contracts: NextPage = ({
   }
 
   const caverContractValidity = async () => {
+    console.log(kip7address)
     const code = await caver.klay.getCode(kip7address)
     if (code === '0x') {
       return false
@@ -42,6 +43,8 @@ const Contracts: NextPage = ({
 
   const instantiateKlayContracts = async () => {
     const valid: boolean = await caverContractValidity()
+
+    console.log('valid? : ' + valid)
     if (valid) {
       if (kip7address && kip7abi) {
         const kip7Contract = new caver.klay.Contract(kip7abi, kip7address)
@@ -50,6 +53,8 @@ const Contracts: NextPage = ({
       if (kip17address && kip17abi) {
         const kip17Contract = new caver.klay.Contract(kip17abi, kip17address)
         setKip17(kip17Contract)
+
+        console.log(kip17Contract)
       }
       if (kip37address && kip37abi) {
         const kip37Contract = new caver.klay.Contract(kip37abi, kip37address)
@@ -63,6 +68,7 @@ const Contracts: NextPage = ({
 
   const instantiateEthContracts = async () => {
     const valid: boolean = await metamaskContractValidity()
+
     if (valid) {
       if (kip7address && kip7abi) {
         const kip7Contract = new web3.eth.Contract(kip7abi, kip7address)
