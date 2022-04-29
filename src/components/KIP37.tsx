@@ -51,7 +51,7 @@ const KIP37 = ({ kip37 }: props) => {
       const metadata = { name: name, description: description, image: image, quantity: quantity }
 
       await initCaverIPFS()
-      const cid = await caver.ipfs.add(new Uint8Array(JSON.parse(JSON.stringify(metadata))).buffer)
+      const cid = await caver.ipfs.add(Buffer.from(JSON.stringify(metadata)).buffer)
 
       const uri = `https://ipfs.infura.io/ipfs/${cid}`
       console.log('token URI: ', uri)
