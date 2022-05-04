@@ -42,6 +42,7 @@ const Contracts: NextPage = ({
 
   const instantiateKlayContracts = async () => {
     const valid: boolean = await caverContractValidity()
+
     if (valid) {
       if (kip7address && kip7abi) {
         const kip7Contract = new caver.klay.Contract(kip7abi, kip7address)
@@ -63,6 +64,7 @@ const Contracts: NextPage = ({
 
   const instantiateEthContracts = async () => {
     const valid: boolean = await metamaskContractValidity()
+
     if (valid) {
       if (kip7address && kip7abi) {
         const kip7Contract = new web3.eth.Contract(kip7abi, kip7address)

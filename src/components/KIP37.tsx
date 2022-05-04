@@ -1,11 +1,13 @@
 import { useForm } from 'react-hook-form'
-import { create } from 'ipfs-http-client'
 import { useState, useContext } from 'react'
 import providerContext from '../context/context'
 import Spinner from '../components/Spinner'
 
-const url: string | any = 'https://ipfs.infura.io:5001/api/v0'
-const client = create(url)
+const ipfsConn = {
+  host: 'ipfs.infura.io',
+  port: 5001,
+  https: true,
+}
 
 type FormData = {
   name: string
@@ -19,7 +21,7 @@ interface props {
 }
 
 const KIP37 = ({ kip37 }: props) => {
-  const { kaikasAddress } = useContext(providerContext)
+  const { caver, kaikasAddress } = useContext(providerContext)
   const [imageURL, setImageURL] = useState('')
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const {
@@ -29,6 +31,10 @@ const KIP37 = ({ kip37 }: props) => {
     setValue,
     formState: { errors },
   } = useForm<FormData>()
+
+  const initCaverIPFS = async () => {
+    await caver.ipfs.setIPFSNode(ipfsConn.host, ipfsConn.port, ipfsConn.https)
+  }
 
   const mintToken = async () => {
     if (!kip37) {
@@ -43,7 +49,10 @@ const KIP37 = ({ kip37 }: props) => {
         return
       }
       const metadata = { name: name, description: description, image: image, quantity: quantity }
-      const { cid } = await client.add({ content: JSON.stringify(metadata) })
+
+      await initCaverIPFS()
+      const cid = await caver.ipfs.add(Buffer.from(JSON.stringify(metadata)).buffer)
+
       const uri = `https://ipfs.infura.io/ipfs/${cid}`
       console.log('token URI: ', uri)
       const mintTxn = await kip37.methods
@@ -58,18 +67,23 @@ const KIP37 = ({ kip37 }: props) => {
     try {
       setIsLoading(true)
       console.log(`adding ${file.name} to ipfs....`)
-      const { cid } = await client.add(
-        { content: file },
-        {
-          cidVersion: 1,
-          hashAlg: 'sha2-256',
+
+      await initCaverIPFS()
+      const reader = new FileReader()
+      reader.addEventListener('load', async (event) => {
+        if (event && event.target && event.target.result != null) {
+          const cid = await caver.ipfs.add(event.target.result)
+
+          const url = `https://ipfs.infura.io/ipfs/${cid}`
+          console.log('ipfs url: ', url)
+          setImageURL(url)
+          setValue('image', url)
+          setIsLoading(false)
+        } else {
+          alert('No content!')
         }
-      )
-      const url = `https://ipfs.infura.io/ipfs/${cid}`
-      console.log('ipfs url: ', url)
-      setImageURL(url)
-      setValue('image', url)
-      setIsLoading(false)
+      })
+      reader.readAsArrayBuffer(file)
     } catch (e) {
       console.error('Error uploading file: ', e)
     }
