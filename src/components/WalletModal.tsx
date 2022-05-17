@@ -36,6 +36,9 @@ const WalletModal = (props: ModalProps) => {
       props.setWalletModal(false)
       setCurrentWallet('Kaikas')
       const networkId = klaytnProvider.networkVersion
+      klaytnProvider.on('accountsChanged', () => {
+        console.log('ACCOUNT CHANGE', accounts[0])
+      })
       if (networkId !== 1001) {
         toast.error('Please connect to the Baobab Testnet to use this sandbox', {
           theme: 'colored',
