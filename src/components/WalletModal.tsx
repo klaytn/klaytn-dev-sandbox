@@ -63,8 +63,7 @@ const WalletModal = (props: ModalProps) => {
       setCurrentWallet('Metamask')
       const networkId = ethProvider.networkVersion
       ethProvider.on('accountsChanged', () => {
-        setMetamaskAddress(account[0])
-        console.log('ACCOUNT CHANGED', account[0])
+        setMetamaskAddress(ethProvider.selectedAddress)
        })
       if (networkId !== '1001') {
         toast.error('Please connect to the Baobab Testnet to use this sandbox', {
@@ -79,10 +78,6 @@ const WalletModal = (props: ModalProps) => {
       toast.error(error.message, { theme: 'colored' })
     }
   }
-
-  useEffect(() => {
-    connectKaikas()
-  }, [])
 
   return (
     <>
