@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import Image from 'next/image'
 import metamask from '../public/metamask.png'
@@ -37,8 +37,8 @@ const WalletModal = (props: ModalProps) => {
       setCurrentWallet('Kaikas')
       const networkId = klaytnProvider.networkVersion
       klaytnProvider.on('accountsChanged', () => {
-        console.log('ACCOUNT CHANGE', accounts[0])
-      })
+        setKaikasAddress(klaytnProvider.selectedAddress)
+       })
       if (networkId !== 1001) {
         toast.error('Please connect to the Baobab Testnet to use this sandbox', {
           theme: 'colored',
@@ -62,6 +62,10 @@ const WalletModal = (props: ModalProps) => {
       props.setWalletModal(false)
       setCurrentWallet('Metamask')
       const networkId = ethProvider.networkVersion
+      ethProvider.on('accountsChanged', () => {
+        setMetamaskAddress(account[0])
+        console.log('ACCOUNT CHANGED', account[0])
+       })
       if (networkId !== '1001') {
         toast.error('Please connect to the Baobab Testnet to use this sandbox', {
           theme: 'colored',
@@ -75,6 +79,10 @@ const WalletModal = (props: ModalProps) => {
       toast.error(error.message, { theme: 'colored' })
     }
   }
+
+  useEffect(() => {
+    connectKaikas()
+  }, [])
 
   return (
     <>
