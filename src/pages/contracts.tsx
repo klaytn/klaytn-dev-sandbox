@@ -24,25 +24,20 @@ const Contracts: NextPage = ({
 
   const metamaskContractValidity = async () => {
     const code = await web3.eth.getCode(kip7address)
-    if (code === '0x') {
-      return false
-    } else {
-      return true
-    }
+    return code === '0x' ? false : true
   }
 
   const caverContractValidity = async () => {
-    const code = await caver.klay.getCode(kip7address)
-    if (code === '0x') {
-      return false
-    } else {
-      return true
+    try {
+      const code = await caver.klay.getCode(kip7address)
+      return code === '0x' ? false : true
+    } catch (err) {
+      console.error('error checking contract validity')
     }
   }
 
   const instantiateKlayContracts = async () => {
-    const valid: boolean = await caverContractValidity()
-
+    const valid: boolean | any = await caverContractValidity()
     if (valid) {
       if (kip7address && kip7abi) {
         const kip7Contract = new caver.klay.Contract(kip7abi, kip7address)
@@ -57,9 +52,6 @@ const Contracts: NextPage = ({
         setKip37(kip37Contract)
       }
     }
-    // else {
-    //   alert('Please connect wallet to the network of your deployed contracts')
-    // }
   }
 
   const instantiateEthContracts = async () => {

@@ -109,13 +109,17 @@ const Transfer = () => {
   }
 
   const getKaikasBalance = async () => {
-    const caver = new Caver(klaytnProvider)
-    const account = klaytnProvider.selectedAddress
-    const balance = await caver.klay.getBalance(account)
-    console.log('balance: ', balance)
-    if (balance) {
-      const klay = caver.utils.convertFromPeb(balance, 'KLAY')
-      setKaikasBalance(klay)
+    try {
+      const caver = new Caver(klaytnProvider)
+      const account = klaytnProvider.selectedAddress
+      const balance = await caver.klay.getBalance(account)
+      console.log('balance: ', balance)
+      if (balance) {
+        const klay = caver.utils.convertFromPeb(balance, 'KLAY')
+        setKaikasBalance(klay)
+      }
+    } catch (err) {
+      console.error('error retrieving wallet balance')
     }
   }
 
