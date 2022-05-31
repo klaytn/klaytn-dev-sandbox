@@ -62,8 +62,42 @@ $ npm run deploy:klaytn:kip37
 ```
 
 ## Deploying a contract to Baobab Testnet
+Make sure you rename the `.env.example` to `.env` before you proceed. 
 
+You can deploy to Baobab using a public rpc endpoint or subscribing to [Klaytn API Service](https://console.klaytnapi.com/en/auth/signup) and using kas endpoint 
+
+### Connecting to Baobab via KAS (Klaytn API Service)
+
+Refer to this [documentation](https://docs.klaytnapi.com/v/en/getting-started/get-ready) to signup KAS and get the accessKey, secretKey and rpc endpoint. Update .env file with `ACCESS_KEY_ID`, `SECRET_ACCESS_KEY`and `KAS_TESTNET_API_URL` 
+
+Go ahead and deploy the KIP contracts with the below config 
+
+```truffle-config.js
+kasBaobab: {
+      provider: () => {
+        const option = {
+          headers: [
+            { name: 'Authorization', value: 'Basic ' + Buffer.from(accessKeyId + ':' + secretAccessKey).toString('base64') },
+            { name: 'x-chain-id', value: '1001' }
+          ],
+          keepAlive: false,
+        }
+        return new HDWalletProvider(baobabPrivateKey, new Caver.providers.HttpProvider(kasTestnetApiUrl, option))
+      },
+      network_id: '1001', //Klaytn baobab testnet's network id
+      gas: '8500000',
+      gasPrice:'750000000000'
+    }
+```
+
+```bash
+$ npm run deploy:kasBaobab:<contractname> 
+```
+
+### Connecting to Baobab via Public RPC endpoint
 Update `privateKey` and `URL` in .env file for test network `baobab` of [truffle-config.js](./truffle-config.js).
+
+You can export the `privateKey` from kaikas wallet and `URL` from the klaytn [docs](https://docs.klaytn.foundation/dapp/json-rpc/public-en)
 
 ```js
     baobab: {
@@ -89,6 +123,7 @@ cd src
 npm install
 npm run dev
 ```
+Note: The current version of frontend does not communicate with the local network. It only interacts with the contracts deployed in baobab network. It will release in the future versions.
 
 ### Troubleshooot
 Issue : Error: Private keys file has not been downloaded to the local directory! Follow the troubleshooting steps to proceed
