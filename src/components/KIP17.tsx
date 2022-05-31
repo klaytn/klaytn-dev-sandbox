@@ -2,6 +2,8 @@ import { useForm } from 'react-hook-form'
 import { useState, useContext } from 'react'
 import providerContext from '../context/context'
 import Spinner from '../components/Spinner'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const ipfsConn = {
   host: 'ipfs.infura.io',
@@ -36,6 +38,7 @@ const KIP17 = ({ kip17 }: props) => {
   }
 
   const mintToken = async () => {
+    const id = toast.loading('Minting Tokens....', { theme: 'colored' })
     if (!kip17) {
       alert('Please connect your Kaikas wallet')
     } else {
@@ -54,10 +57,26 @@ const KIP17 = ({ kip17 }: props) => {
 
       const uri = `https://ipfs.infura.io/ipfs/${cid}`
       console.log('token URI: ', uri)
-      const mintTxn = await kip17.methods
+      try {
+        const mintTxn = await kip17.methods
         .mintNFT(kaikasAddress, uri)
         .send({ from: kaikasAddress, gas: '0xF4240' })
       console.log('successfully minted token: ', mintTxn)
+      toast.update(id, {
+        render: 'Token successfully minted',
+        type: 'success',
+        autoClose: 3000,
+        isLoading: false,
+      })
+      } catch(err:any) {
+        toast.update(id, {
+          render: err.message,
+          type: 'error',
+          autoClose: 3000,
+          isLoading: false,
+        })
+      }
+      
     }
   }
 
