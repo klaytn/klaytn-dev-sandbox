@@ -4,6 +4,9 @@ import providerContext from '../context/context'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { shortenAddress, shortenBalance, validateAddress } from '../helpers'
+import HowToModal from './HowToModal'
+//import 'flowbite'
+import { Button, Tooltip } from 'flowbite-react'
 
 type FormData = {
   receivingAddress: string
@@ -19,6 +22,7 @@ const KIP7 = ({ kip7 }: props) => {
   const [kip7Balance, setKip7Balance] = useState()
   const [tokenSymbol, setTokenSymbol] = useState()
   const [connectedAddress, setConnectedAddress] = useState()
+  const [isModalHidden, setIsModalHidden] = useState(false)
   const {
     register,
     handleSubmit,
@@ -71,6 +75,10 @@ const KIP7 = ({ kip7 }: props) => {
     }
   }
 
+  const showInstruction = () => {
+    setIsModalHidden(true)
+  }
+
   useEffect(() => {
     if (kaikasAddress) {
       setConnectedAddress(kaikasAddress)
@@ -89,6 +97,30 @@ const KIP7 = ({ kip7 }: props) => {
 
   return (
     <div className="flex flex-col items-center w-full">
+      {/* <button 
+       type="button" 
+       className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+       onClick={showInstruction}
+       >       
+         How to use it ?
+         </button>
+         {isModalHidden && ( 
+           <div className="flex justify-center"> 
+           <HowToModal />
+           </div>
+          )} */}
+      <div className="mb-10">
+        <Tooltip content="Link to the documentation">
+          <a
+            href="https://github.com/Krustuniverse-Klaytn-Group/klaytn-dev-sandbox#deploying-contracts"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Button>How to use the KIP7 Token </Button>
+          </a>
+        </Tooltip>
+      </div>
+
       <div className="place-content-center font-body mb-6 tracking-widest shadow-md w-2/5 rounded-lg bg-gray-100">
         <div className="border-b-2 p-4 text-2xl flex place-content-between">
           {connectedAddress && kip7Balance && tokenSymbol ? (

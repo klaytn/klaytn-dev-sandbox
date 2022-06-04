@@ -4,6 +4,7 @@ import providerContext from '../context/context'
 import Spinner from '../components/Spinner'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { Button, Tooltip } from 'flowbite-react'
 
 const ipfsConn = {
   host: 'ipfs.infura.io',
@@ -59,16 +60,16 @@ const KIP17 = ({ kip17 }: props) => {
       console.log('token URI: ', uri)
       try {
         const mintTxn = await kip17.methods
-        .mintNFT(kaikasAddress, uri)
-        .send({ from: kaikasAddress, gas: '0xF4240' })
-      console.log('successfully minted token: ', mintTxn)
-      toast.update(id, {
-        render: 'Token successfully minted',
-        type: 'success',
-        autoClose: 3000,
-        isLoading: false,
-      })
-      } catch(err:any) {
+          .mintNFT(kaikasAddress, uri)
+          .send({ from: kaikasAddress, gas: '0xF4240' })
+        console.log('successfully minted token: ', mintTxn)
+        toast.update(id, {
+          render: 'Token successfully minted',
+          type: 'success',
+          autoClose: 3000,
+          isLoading: false,
+        })
+      } catch (err: any) {
         toast.update(id, {
           render: err.message,
           type: 'error',
@@ -76,7 +77,6 @@ const KIP17 = ({ kip17 }: props) => {
           isLoading: false,
         })
       }
-      
     }
   }
 
@@ -107,18 +107,27 @@ const KIP17 = ({ kip17 }: props) => {
     }
   }
 
-  const deleteMedia = () => {   
+  const deleteMedia = () => {
     setImageURL('')
   }
 
-  useEffect(() => {
-    
-  }, [imageURL])
+  useEffect(() => {}, [imageURL])
 
   return (
     <div className="flex justify-center">
       <div className="space-y-6 w-1/4">
-        <div className="flex justify-center text-2xl">Mint KIP17 NFT</div>
+        <div className="flex justify-center mb-10">
+          <Tooltip content="Link to the documentation">
+            <a
+              href="https://github.com/Krustuniverse-Klaytn-Group/klaytn-dev-sandbox#deploying-contracts"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Button>How to use the KIP17 NFT </Button>
+            </a>
+          </Tooltip>
+        </div>
+        {/* <div className="flex justify-center text-2xl">Mint KIP17 NFT</div> */}
         <div className="grid grid-cols-1">
           <label className="md:text-sm text-xs text-gray-500 font-body tracking-wider">Name</label>
           <input
@@ -184,8 +193,8 @@ const KIP17 = ({ kip17 }: props) => {
           <div className="flex justify-center">
             <Spinner />
           </div>
-        )}    
-         <div className="flex items-center justify-center pt-5 pb-5">
+        )}
+        <div className="flex items-center justify-center pt-5 pb-5">
           <button
             className="bg-magma text-white tracking-widest font-header py-2 px-8 rounded-full hover:bg-grey-400 "
             onClick={handleSubmit(mintToken)}
@@ -194,11 +203,22 @@ const KIP17 = ({ kip17 }: props) => {
           </button>
           <button
             className="bg-magma text-white tracking-widest font-header mx-3 py-2 px-8 rounded-full hover:bg-grey-400 "
-            onClick={(deleteMedia)}
+            onClick={deleteMedia}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-            </svg>            
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+              />
+            </svg>
           </button>
         </div>
       </div>
