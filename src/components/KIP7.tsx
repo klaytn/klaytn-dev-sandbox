@@ -4,8 +4,6 @@ import providerContext from '../context/context'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { shortenAddress, shortenBalance, validateAddress } from '../helpers'
-import HowToModal from './HowToModal'
-//import 'flowbite'
 import { Button, Tooltip } from 'flowbite-react'
 
 type FormData = {
@@ -97,18 +95,6 @@ const KIP7 = ({ kip7 }: props) => {
 
   return (
     <div className="flex flex-col items-center w-full">
-      {/* <button 
-       type="button" 
-       className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-       onClick={showInstruction}
-       >       
-         How to use it ?
-         </button>
-         {isModalHidden && ( 
-           <div className="flex justify-center"> 
-           <HowToModal />
-           </div>
-          )} */}
       <div className="mb-10">
         <Tooltip content="Link to the documentation">
           <a
