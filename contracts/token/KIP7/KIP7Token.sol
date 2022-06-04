@@ -9,8 +9,9 @@ contract KIP7Token is KIP7 {
         string memory symbol,
         uint8 decimals,
         uint256 initialSupply
-    ) KIP7(name, symbol) {        
+    ) KIP7(name, symbol) { 
+        //_setupDecimals(decimals);       
         _mint(msg.sender, initialSupply);
-        //_setupDecimals(decimals);
+        
     }
 }

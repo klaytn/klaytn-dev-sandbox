@@ -11,25 +11,44 @@ import "@klaytn/contracts/contracts/utils/Counters.sol";
 //import '../../utils/Counters.sol';
 
 
-contract KIP17Token {
+contract KIP17Token is KIP17, Ownable {
     
-    // using Counters for Counters.Counter;
-    // Counters.Counter private _tokenIds;
+    using Counters for Counters.Counter;
+    Counters.Counter private _tokenIds;
 
-    // constructor(string memory name, string memory symbol) KIP17MetadataMintable(name, symbol) {}
+    mapping (uint256 => string) private _tokenURIs;
+    string private _baseURIextended;
 
-    // function mintNFT(address recipient, string memory tokenURI)
-    //     public onlyOwner
-    //     returns (uint256)
-    // {
-    //     _tokenIds.increment();
+    constructor(string memory name, string memory symbol) KIP17(name, symbol) {}
 
-    //     uint256 newItemId = _tokenIds.current();
-    //    // mintWithTokenURI(recipient, newItemId, tokenURI);
-    //     _mint(recipient, newItemId);
-    //     _setTokenURI(newItemId, tokenURI);
+    function setBaseURI(string memory baseURI_) external onlyOwner {
+        _baseURIextended = baseURI_;
+    }
 
-    //     return newItemId;
-    // }
+    function mintNFT(address recipient, string memory tokenURI)
+        public onlyOwner
+        returns (uint256)
+    {
+        _tokenIds.increment();
+
+        uint256 newItemId = _tokenIds.current();
+       // mintWithTokenURI(recipient, newItemId, tokenURI);
+        _mint(recipient, newItemId);
+        _setTokenURI(newItemId, tokenURI);
+
+        return newItemId;
+    }
+
+    function _setTokenURI(uint256 tokenId, string memory uri) internal {
+        require(
+            _exists(tokenId),
+            'KIP17Metadata: URI set of nonexistent token'
+        );
+        _tokenURIs[tokenId] = uri;
+    }
+
+    function _baseURI() internal view virtual override returns (string memory) {
+        return _baseURIextended;
+    }
 }
 
