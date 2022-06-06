@@ -2,13 +2,10 @@
 
 pragma solidity ^0.8.0;
 
-//import './extensions/KIP17Metadata.sol';
 import "@klaytn/contracts/contracts/KIP/token/KIP17/KIP17.sol";
 import "@klaytn/contracts/contracts/KIP/token/KIP17/extensions/KIP17MetadataMintable.sol";
 import "@klaytn/contracts/contracts/access/Ownable.sol";
 import "@klaytn/contracts/contracts/utils/Counters.sol";
-//import '../../utils/Ownable.sol';
-//import '../../utils/Counters.sol';
 
 
 contract KIP17Token is KIP17, Ownable {
