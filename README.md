@@ -2,7 +2,7 @@
 
 This repository contains Boilerplate code for front-end(UI) and contracts(backend) that are helpful to building blockchain applications on Klaytn.
 
-Some files were derived from [openzeppelin contracts v2.3.0](https://github.com/OpenZeppelin/openzeppelin-contracts/releases/tag/v2.3.0).
+It imports [klaytn-contract library](https://github.com/klaytn/klaytn-contracts/tree/master/contracts) to create a KIP7, KIP17 and KIP37 token. 
 
 ## Prerequisites
 
