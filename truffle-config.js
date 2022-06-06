@@ -81,7 +81,6 @@ module.exports = {
     },
     kasBaobab: {
       provider: () => {
-        //fileExists()
         const option = {
           headers: [
             { name: 'Authorization', value: 'Basic ' + Buffer.from(accessKeyId + ':' + secretAccessKey).toString('base64') },
