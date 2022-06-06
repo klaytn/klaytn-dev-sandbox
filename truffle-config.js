@@ -27,15 +27,15 @@ const Caver = require('caver-js')
 const HDWalletProvider = require("truffle-hdwallet-provider-klaytn");
 
 require('dotenv').config();
-// const mnemonic = fs.readFileSync(".secret").toString().trim();
 
 const accessKeyId = process.env.ACCESS_KEY_ID;
 const secretAccessKey = process.env.SECRET_ACCESS_KEY;
 const cypressPrivateKey = process.env.MAINNET_PRIVATE_KEY;
-const testnetPrivateKey = process.env.TESTNET_PRIVATE_KEY;
+const baobabPrivateKey = process.env.TESTNET_PRIVATE_KEY;
 const testnetApiUrl = process.env.TESTNET_API_URL;
 const kasTestnetApiUrl = process.env.KAS_TESTNET_API_URL;
 const mainnetApiUrl = process.env.MAINNET_API_URL;
+const kasMainnetApiUrl = process.env.KAS_MAINNET_API_URL;
 
 module.exports = {
   /**
@@ -81,7 +81,6 @@ module.exports = {
     },
     kasBaobab: {
       provider: () => {
-        fileExists()
         const option = {
           headers: [
             { name: 'Authorization', value: 'Basic ' + Buffer.from(accessKeyId + ':' + secretAccessKey).toString('base64') },
@@ -89,7 +88,7 @@ module.exports = {
           ],
           keepAlive: false,
         }
-        return new HDWalletProvider(testnetPrivateKey, new Caver.providers.HttpProvider(kasTestnetApiUrl, option))
+        return new HDWalletProvider(baobabPrivateKey, new Caver.providers.HttpProvider(kasTestnetApiUrl, option))
       },
       network_id: '1001', //Klaytn baobab testnet's network id
       gas: '8500000',
@@ -104,14 +103,14 @@ module.exports = {
           ],
           keepAlive: false,
         }
-        return new HDWalletProvider(cypressPrivateKey, new Caver.providers.HttpProvider(kasTestnetApiUrl, option))
+        return new HDWalletProvider(cypressPrivateKey, new Caver.providers.HttpProvider(kasMainnetApiUrl, option))
       },
       network_id: '8217', //Klaytn baobab testnet's network id
       gas: '8500000',
       gasPrice:'750000000000'
     },
     baobab: {
-      provider: () => { return new HDWalletProvider(testnetPrivateKey, testnetApiUrl) },
+      provider: () => { return new HDWalletProvider(baobabPrivateKey, testnetApiUrl) },
       network_id: '1001', //Klaytn baobab testnet's network id
       gas: '8500000',
       gasPrice: null
