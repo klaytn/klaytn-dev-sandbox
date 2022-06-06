@@ -107,7 +107,7 @@ const Header = () => {
       })
       getKaikasBalance()
     }
-  }, [klaytnProvider, caver])
+  }, [klaytnProvider, caver, kaikasAddress])
 
   return (
     <header className="grid grid-rows-2 font-light">
