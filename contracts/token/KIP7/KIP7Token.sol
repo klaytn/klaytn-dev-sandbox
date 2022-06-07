@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@klaytn/contracts/contracts/KIP/token/KIP7/KIP7.sol";
+import "@klaytn/contracts/KIP/token/KIP7/KIP7.sol";
 
 contract KIP7Token is KIP7 {
     constructor(
