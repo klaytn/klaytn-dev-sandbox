@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.0;
 
-import './KIP37.sol';
-import '../../utils/Counters.sol';
+import "@klaytn/contracts/KIP/token/KIP37/KIP37.sol";
+import "@klaytn/contracts/utils/Counters.sol";
 
 contract KIP37Token is KIP37 {
 

@@ -37,6 +37,7 @@
     "deploy:klaytn:kip37": "truffle migrate --f 4 --to 4 --network klaytn"
   },
   "dependencies": {
+    "@klaytn/contracts": "^1.0.2",
     "caver-js": "^1.5.0",
     "caver-js-ext-kas": "^1.0.1",
     "dotenv": "^16.0.0",
