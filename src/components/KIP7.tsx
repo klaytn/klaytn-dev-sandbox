@@ -119,6 +119,7 @@ const KIP7 = ({ kip7 }: props) => {
           <input
             className="rounded-md shadow-sm block py-2 px-2 w-full border border-gray-200"
             type="number"
+            min="0"
             {...register('sendValue', { required: true, validate: validateValue })}
           />
           {errors.sendValue && errors.sendValue.type === 'validate' && (
