@@ -29,11 +29,15 @@
     "deploy:baobab:kip7": "truffle migrate --f 1 --to 2 --network baobab",
     "deploy:baobab:kip17": "truffle migrate --f 3 --to 3 --network baobab",
     "deploy:baobab:kip37": "truffle migrate --f 4 --to 4 --network baobab",
+    "deploy:kasBaobab:kip7": "truffle migrate --f 1 --to 2 --network kasBaobab",
+    "deploy:kasBaobab:kip17": "truffle migrate --f 3 --to 3 --network kasBaobab",
+    "deploy:kasBaobab:kip37": "truffle migrate --f 4 --to 4 --network kasBaobab",
     "deploy:klaytn:kip7": "truffle migrate --f 1 --to 2 --network klaytn",
     "deploy:klaytn:kip17": "truffle migrate --f 3 --to 3 --network klaytn",
     "deploy:klaytn:kip37": "truffle migrate --f 4 --to 4 --network klaytn"
   },
   "dependencies": {
+    "@klaytn/contracts": "^1.0.2",
     "caver-js": "^1.5.0",
     "caver-js-ext-kas": "^1.0.1",
     "dotenv": "^16.0.0",
