@@ -63,13 +63,13 @@ const KIP7 = ({ kip7 }: props) => {
     }
   }
 
-  const validateValue = (input: any) => {
-    if (kip7Balance && input > kip7Balance) {
-      return false
-    } else {
-      return true
-    }
-  }
+  // const validateValue = (input: any) => {
+  //   if (kip7Balance && input > kip7Balance) {
+  //     return false
+  //   } else {
+  //     return true
+  //   }
+  // }
 
   useEffect(() => {
     if (kaikasAddress) {
@@ -119,10 +119,14 @@ const KIP7 = ({ kip7 }: props) => {
           <input
             className="rounded-md shadow-sm block py-2 px-2 w-full border border-gray-200"
             type="number"
-            {...register('sendValue', { required: true, validate: validateValue })}
+            min="0"
+            {...register('sendValue', {
+              required: true,
+              max: { value: kip7Balance },
+            })}
           />
-          {errors.sendValue && errors.sendValue.type === 'validate' && (
-            <div className="text-lightorange">Value is more than balance</div>
+          {errors.sendValue && (
+            <div className="text-lightorange">The value is not valid or more than balance</div>
           )}
           <button
             className="flex font-light items-center rounded-full bg-magma px-4 py-2 text-white"
