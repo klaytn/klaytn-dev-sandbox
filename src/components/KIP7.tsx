@@ -126,7 +126,7 @@ const KIP7 = ({ kip7 }: props) => {
             })}
           />
           {errors.sendValue && (
-            <div className="text-lightorange">The value not valid or more than balance</div>
+            <div className="text-lightorange">The value is not valid or more than balance</div>
           )}
           <button
             className="flex font-light items-center rounded-full bg-magma px-4 py-2 text-white"
