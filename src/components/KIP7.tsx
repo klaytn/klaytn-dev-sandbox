@@ -63,13 +63,13 @@ const KIP7 = ({ kip7 }: props) => {
     }
   }
 
-  const validateValue = (input: any) => {
-    if (kip7Balance && input > kip7Balance) {
-      return false
-    } else {
-      return true
-    }
-  }
+  // const validateValue = (input: any) => {
+  //   if (kip7Balance && input > kip7Balance) {
+  //     return false
+  //   } else {
+  //     return true
+  //   }
+  // }
 
   useEffect(() => {
     if (kaikasAddress) {
@@ -84,7 +84,6 @@ const KIP7 = ({ kip7 }: props) => {
     if (kip7 && connectedAddress) {
       getWalletBalance()
       getTokenInfo()
-      console.log('ERRORS', errors)
     }
   }, [kip7, connectedAddress])
 
@@ -121,9 +120,14 @@ const KIP7 = ({ kip7 }: props) => {
             className="rounded-md shadow-sm block py-2 px-2 w-full border border-gray-200"
             type="number"
             min="0"
-            {...register('sendValue', { max: { value: kip7Balance } })}
+            {...register('sendValue', {
+              required: true,
+              max: { value: kip7Balance },
+            })}
           />
-          {errors.sendValue && <div className="text-lightorange">Value is more than balance</div>}
+          {errors.sendValue && (
+            <div className="text-lightorange">The value not valid or more than balance</div>
+          )}
           <button
             className="flex font-light items-center rounded-full bg-magma px-4 py-2 text-white"
             type="submit"
