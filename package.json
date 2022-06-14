@@ -8,7 +8,7 @@
   "bugs": {
     "url": "https://github.com/klaytn/klaytn-dev-sandbox/issues"
   },
-  "homepage": "https://github.com/klaytn",
+  "homepage": "https://github.com/klaytn/klaytn-dev-sandbox",
   "scripts": {
     "build": "truffle compile",
     "test": "concurrently --success first --kill-others \"yarn run:ganache\" \"yarn test:ganache\"",
