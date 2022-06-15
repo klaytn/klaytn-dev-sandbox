@@ -42,7 +42,12 @@ const KIP37 = ({ kip37 }: props) => {
   const mintToken = async () => {
     const id = toast.loading('Minting Tokens....', { theme: 'colored' })
     if (!kip37) {
-      alert('Please connect your Kaikas wallet')
+      toast.update(id, {
+        render: 'Contract not deployed yet',
+        type: 'error',
+        autoClose: 3000,
+        isLoading: false,
+      })
     } else {
       const name = getValues('name')
       const description = getValues('description')

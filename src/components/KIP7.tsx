@@ -15,7 +15,7 @@ interface props {
   kip7: any
 }
 
-const KIP7 = ({ kip7 }: props) => {
+const KIP7 = ({ kip7, kip7abi }: props) => {
   const { caver, metamaskAddress, kaikasAddress } = useContext(providerContext)
   const [kip7Balance, setKip7Balance] = useState()
   const [tokenSymbol, setTokenSymbol] = useState()
@@ -38,22 +38,33 @@ const KIP7 = ({ kip7 }: props) => {
     setTokenSymbol(symbol)
   }
 
+  console.log('KIP7 ABI', kip7abi)
+
   const transferTokens = async () => {
     const receiver = getValues('receivingAddress')
     const sendValue = getValues('sendValue')
     const gasPrice = await caver.klay.getGasPrice()
     const id = toast.loading('Sending Tokens....', { theme: 'colored' })
     try {
-      const txn = await kip7.methods
-        .transfer(receiver, sendValue)
-        .send({ from: connectedAddress, gasPrice: gasPrice, gas: '0xF4240' })
-      console.log('successfully sent tokens: ', txn)
-      toast.update(id, {
-        render: 'Tokens sent successfully',
-        type: 'success',
-        autoClose: 3000,
-        isLoading: false,
-      })
+      if (!kip7) {
+        toast.update(id, {
+          render: 'Contract not deployed yet',
+          type: 'error',
+          autoClose: 3000,
+          isLoading: false,
+        })
+      } else {
+        const txn = await kip7.methods
+          .transfer(receiver, sendValue)
+          .send({ from: connectedAddress, gasPrice: gasPrice, gas: '0xF4240' })
+        console.log('successfully sent tokens: ', txn)
+        toast.update(id, {
+          render: 'Tokens sent successfully',
+          type: 'success',
+          autoClose: 3000,
+          isLoading: false,
+        })
+      }
     } catch (err: any) {
       console.error(err)
       toast.update(id, {
@@ -63,18 +74,6 @@ const KIP7 = ({ kip7 }: props) => {
         isLoading: false,
       })
     }
-  }
-
-  // const validateValue = (input: any) => {
-  //   if (kip7Balance && input > kip7Balance) {
-  //     return false
-  //   } else {
-  //     return true
-  //   }
-  // }
-
-  const showInstruction = () => {
-    setIsModalHidden(true)
   }
 
   useEffect(() => {
@@ -141,6 +140,7 @@ const KIP7 = ({ kip7 }: props) => {
             {...register('sendValue', {
               required: true,
               max: { value: kip7Balance },
+              min: 0,
             })}
           />
           {errors.sendValue && (

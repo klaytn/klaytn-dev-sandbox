@@ -22,7 +22,7 @@ interface props {
   kip17: any
 }
 
-const KIP17 = ({ kip17 }: props) => {
+const KIP17 = ({ kip17, kip17abi }: props) => {
   const { caver, kaikasAddress } = useContext(providerContext)
   const [imageURL, setImageURL] = useState('')
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -41,7 +41,12 @@ const KIP17 = ({ kip17 }: props) => {
   const mintToken = async () => {
     const id = toast.loading('Minting Tokens....', { theme: 'colored' })
     if (!kip17) {
-      alert('Please connect your Kaikas wallet')
+      toast.update(id, {
+        render: 'Contract not deployed yet',
+        type: 'error',
+        autoClose: 3000,
+        isLoading: false,
+      })
     } else {
       const name = getValues('name')
       const description = getValues('description')
@@ -58,6 +63,7 @@ const KIP17 = ({ kip17 }: props) => {
 
       const uri = `https://ipfs.infura.io/ipfs/${cid}`
       console.log('token URI: ', uri)
+      alert('Minting token')
       try {
         const mintTxn = await kip17.methods
           .mintNFT(kaikasAddress, uri)
