@@ -15,7 +15,7 @@ interface props {
   kip7: any
 }
 
-const KIP7 = ({ kip7, kip7abi }: props) => {
+const KIP7 = ({ kip7 }: props) => {
   const { caver, metamaskAddress, kaikasAddress } = useContext(providerContext)
   const [kip7Balance, setKip7Balance] = useState()
   const [tokenSymbol, setTokenSymbol] = useState()
@@ -37,8 +37,6 @@ const KIP7 = ({ kip7, kip7abi }: props) => {
     const symbol = await kip7.methods.symbol().call()
     setTokenSymbol(symbol)
   }
-
-  console.log('KIP7 ABI', kip7abi)
 
   const transferTokens = async () => {
     const receiver = getValues('receivingAddress')

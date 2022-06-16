@@ -22,7 +22,7 @@ interface props {
   kip17: any
 }
 
-const KIP17 = ({ kip17, kip17abi }: props) => {
+const KIP17 = ({ kip17 }: props) => {
   const { caver, kaikasAddress } = useContext(providerContext)
   const [imageURL, setImageURL] = useState('')
   const [isLoading, setIsLoading] = useState<boolean>(false)
