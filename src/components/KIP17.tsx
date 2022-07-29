@@ -31,6 +31,7 @@ const KIP17 = ({ kip17 }: props) => {
     getValues,
     setValue,
     formState: { errors },
+    reset
   } = useForm<FormData>()
 
   const initCaverIPFS = async () => {
@@ -68,6 +69,8 @@ const KIP17 = ({ kip17 }: props) => {
         autoClose: 3000,
         isLoading: false,
       })
+      reset();
+      deleteMedia();
       } catch(err:any) {
         toast.update(id, {
           render: err.message,
@@ -117,7 +120,7 @@ const KIP17 = ({ kip17 }: props) => {
 
   return (
     <div className="flex justify-center">
-      <div className="space-y-6 w-1/4">
+      <form className="space-y-6 w-1/4">
         <div className="flex justify-center text-2xl">Mint KIP17 NFT</div>
         <div className="grid grid-cols-1">
           <label className="md:text-sm text-xs text-gray-500 font-body tracking-wider">Name</label>
@@ -201,7 +204,7 @@ const KIP17 = ({ kip17 }: props) => {
             </svg>            
           </button>
         </div>
-      </div>
+      </form>
     </div>
   )
 }
