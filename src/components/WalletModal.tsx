@@ -16,6 +16,66 @@ interface ModalProps {
   setMetamaskConnected: (a: boolean) => void
 }
 
+const connectKaikas = async (state: any) => {
+  try {
+    const accounts = await state.klaytnProvider.enable();
+    state.setKaikasAddress(accounts[0]);
+    const caver = new Caver(state.klaytnProvider);
+    state.setCaver(caver);
+    state.setCurrentWallet('Kaikas');
+    localStorage.setItem("currentWallet", "kaikas");
+    if(state.props) {
+      state.props.setWalletModal(false);
+    }
+    const networkId = state.klaytnProvider.networkVersion;
+    state.klaytnProvider.on('accountsChanged', () => {
+      state.setKaikasAddress(state.klaytnProvider.selectedAddress);
+    })
+    if (networkId !== 1001) {
+      toast.error('Please connect to the Baobab Testnet to use this sandbox', {
+        theme: 'colored',
+        autoClose: false,
+      })
+    } else {
+      toast.success('Wallet Connected', { theme: 'colored', autoClose: 2000 });
+    }
+  } catch (error: any) {
+    console.error(error.message);
+    localStorage.setItem("currentWallet", "");
+    toast.error(error.message, { theme: 'colored' });
+  }
+}
+
+const connectMetamask = async (state: any) => {
+  try {
+    const account = await state.ethProvider.request({ method: 'eth_requestAccounts' });
+    state.setMetamaskAddress(account[0]);
+    let web3 = new Web3(state.ethProvider);
+    state.setWeb3(web3);
+    state.setCurrentWallet('Metamask');
+    localStorage.setItem("currentWallet", "metamask");
+    if(state.props) {
+      state.props.setWalletModal(false);
+    }
+    const networkId = state.ethProvider.networkVersion;
+    state.ethProvider.on('accountsChanged', () => {
+      state.setMetamaskAddress(state.ethProvider.selectedAddress);
+     })
+    if (networkId !== '1001') {
+      toast.error('Please connect to the Baobab Testnet to use this sandbox', {
+        theme: 'colored',
+        autoClose: false,
+      })
+    } else {
+      toast.success('Wallet Connected', { theme: 'colored', autoClose: 2000 });
+    }
+  } catch (error: any) {
+    console.error(error.message);
+    localStorage.setItem("currentWallet", "");
+    toast.error(error.message, { theme: 'colored' });
+  }
+}
+
 const WalletModal = (props: ModalProps) => {
   const {
     ethProvider,
@@ -24,60 +84,19 @@ const WalletModal = (props: ModalProps) => {
     setKaikasAddress,
     setWeb3,
     setCaver,
-    setCurrentWallet,
+    setCurrentWallet
   } = useContext(providerContext)
 
-  const connectKaikas = async () => {
-    try {
-      const accounts = await klaytnProvider.enable()
-      setKaikasAddress(accounts[0])
-      const caver = new Caver(klaytnProvider)
-      setCaver(caver)
-      props.setWalletModal(false)
-      setCurrentWallet('Kaikas')
-      const networkId = klaytnProvider.networkVersion
-      klaytnProvider.on('accountsChanged', () => {
-        setKaikasAddress(klaytnProvider.selectedAddress)
-       })
-      if (networkId !== 1001) {
-        toast.error('Please connect to the Baobab Testnet to use this sandbox', {
-          theme: 'colored',
-          autoClose: false,
-        })
-      } else {
-        toast.success('Wallet Connected', { theme: 'colored', autoClose: 2000 })
-      }
-    } catch (error: any) {
-      console.error(error.message)
-      toast.error(error.message, { theme: 'colored' })
-    }
-  }
-
-  const connectMetamask = async () => {
-    try {
-      const account = await ethProvider.request({ method: 'eth_requestAccounts' })
-      setMetamaskAddress(account[0])
-      let web3 = new Web3(ethProvider)
-      setWeb3(web3)
-      props.setWalletModal(false)
-      setCurrentWallet('Metamask')
-      const networkId = ethProvider.networkVersion
-      ethProvider.on('accountsChanged', () => {
-        setMetamaskAddress(ethProvider.selectedAddress)
-       })
-      if (networkId !== '1001') {
-        toast.error('Please connect to the Baobab Testnet to use this sandbox', {
-          theme: 'colored',
-          autoClose: false,
-        })
-      } else {
-        toast.success('Wallet Connected', { theme: 'colored', autoClose: 2000 })
-      }
-    } catch (error: any) {
-      console.error(error.message)
-      toast.error(error.message, { theme: 'colored' })
-    }
-  }
+  const state = {
+    ethProvider,
+    klaytnProvider,
+    setMetamaskAddress,
+    setKaikasAddress,
+    setWeb3,
+    setCaver,
+    setCurrentWallet,
+    props
+  };
 
   return (
     <>
@@ -122,7 +141,7 @@ const WalletModal = (props: ModalProps) => {
                 <div className="grid grid-cols-2 p-6">
                   <div
                     className="hover:border-2 hover:border-slate-200 border-2 border-white cursor-pointer p-4 rounded-md flex justify-center"
-                    onClick={connectKaikas}
+                    onClick={() => connectKaikas(state)}
                   >
                     <div>
                       <Image src={kaikas} width="100px" height="100px" />
@@ -131,7 +150,7 @@ const WalletModal = (props: ModalProps) => {
                   </div>
                   <div
                     className="hover:border-2 hover:border-slate-200 border-2 border-white cursor-pointer p-4 rounded-md flex justify-center"
-                    onClick={connectMetamask}
+                    onClick={() => connectMetamask(state)}
                     // onClick={connectMetamaskWithCaver}
                   >
                     <div>
@@ -149,4 +168,5 @@ const WalletModal = (props: ModalProps) => {
   )
 }
 
-export default WalletModal
+export default WalletModal;
+export { connectKaikas, connectMetamask };

@@ -1,13 +1,15 @@
 import Link from 'next/link'
 import { useState, useEffect, useContext } from 'react'
-import WalletModal from './WalletModal'
+import WalletModal, {connectKaikas, connectMetamask} from './WalletModal'
 import providerContext from '../context/context'
 import Image from 'next/image'
 import { DocumentDuplicateIcon } from '@heroicons/react/outline'
 import { shortenAddress, shortenBalance } from '../helpers'
 import Subheader from './Subheader'
 import brandImg from '../public/brandmark.svg'
-import { toast } from 'react-toastify'
+import { toast } from 'react-toastify';
+
+declare const window: any
 
 const Header = () => {
   const {
@@ -19,11 +21,62 @@ const Header = () => {
     kaikasAddress,
     currentWallet,
     metamaskCaver,
+    setMetamaskAddress,
+    setKaikasAddress,
+    setWeb3,
+    setCaver,
+    setCurrentWallet,
+    setKlaytnProvider,
+    setEthProvider
   } = useContext(providerContext)
   const [walletModal, setWalletModal] = useState<boolean>(false)
   const [metamaskBalance, setMetamaskBalace] = useState<string>()
   const [kaikasBalance, setKaikasBalance] = useState<any>()
   const [metamaskConnected, setMetamaskConnected] = useState<boolean>(false)
+
+  const disconnectWallet = async () => {
+    setKaikasAddress(null);
+    setCaver(null);
+    setWeb3(null);
+    setCurrentWallet('');
+    setMetamaskAddress(null);
+    localStorage.setItem("currentWallet", "");
+    toast.error("Wallet disconnected. Please reconnect the wallet", { theme: 'colored' });
+  }
+
+  const reloadWalletState = async () => {
+
+    let klaytnProvider: any, ethProvider: any;
+    if (typeof window.klaytn !== 'undefined') {
+      const provider = window['klaytn']
+      klaytnProvider = provider;
+      setKlaytnProvider(provider)
+    }
+    if (typeof window.ethereum !== 'undefined') {
+      const provider = window.ethereum;
+      ethProvider = provider;
+      setEthProvider(provider);
+    }
+
+    const state = {
+      ethProvider,
+      klaytnProvider,
+      setMetamaskAddress,
+      setKaikasAddress,
+      setWeb3,
+      setCaver,
+      setCurrentWallet
+    };
+
+    let storedWallet = localStorage.getItem('currentWallet');
+    if(storedWallet === "kaikas") {
+      await connectKaikas(state);
+    } else if(storedWallet === "metamask") {
+      await connectMetamask(state);
+    } else {
+      toast.error("Please connect to wallet", { theme: 'colored' });
+    }
+  }
 
   const detectKaikasNetwork = () => {
     if (klaytnProvider) {
@@ -90,6 +143,10 @@ const Header = () => {
       initMetamaskWallet()
     }
   }, [ethProvider, metamaskConnected])
+
+  useEffect(() => {
+    reloadWalletState();
+  }, [])
 
   useEffect(() => {
     if (ethProvider && web3) {
@@ -169,6 +226,17 @@ const Header = () => {
                   onClick={() => setWalletModal(true)}
                 >
                   Connect
+                </button>
+              )}
+              
+            </li>
+            <li>
+              {(metamaskAddress || kaikasAddress) && (
+                <button
+                  className="border rounded-full px-4 py-2 border-grey bg-white font-light"
+                  onClick={() => disconnectWallet()}
+                >
+                  Disconnect
                 </button>
               )}
             </li>
