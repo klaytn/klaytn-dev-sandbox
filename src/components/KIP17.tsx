@@ -63,7 +63,6 @@ const KIP17 = ({ kip17 }: props) => {
 
       const uri = `https://ipfs.infura.io/ipfs/${cid}`
       console.log('token URI: ', uri)
-      alert('Minting token')
       try {
         const mintTxn = await kip17.methods
           .mintNFT(kaikasAddress, uri)
