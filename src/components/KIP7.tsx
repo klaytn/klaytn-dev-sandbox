@@ -24,6 +24,7 @@ const KIP7 = ({ kip7 }: props) => {
     handleSubmit,
     getValues,
     formState: { errors },
+    reset
   } = useForm<FormData>()
 
   const getWalletBalance = async () => {
@@ -52,6 +53,7 @@ const KIP7 = ({ kip7 }: props) => {
         autoClose: 3000,
         isLoading: false,
       })
+      reset();
     } catch (err: any) {
       console.error(err)
       toast.update(id, {
@@ -105,36 +107,38 @@ const KIP7 = ({ kip7 }: props) => {
             </>
           )}
         </div>
-        <div className="p-4 space-y-4">
-          <label className="block">Receiving Address</label>
-          <input
-            className="rounded-md shadow-sm block py-2 px-2 w-full border border-gray-200"
-            type="text"
-            {...register('receivingAddress', { required: true, validate: validateAddress })}
-          />
-          {errors.receivingAddress && (
-            <div className="text-lightorange">Please enter a valid wallet address</div>
-          )}
-          <label className="block">Number of Tokens</label>
-          <input
-            className="rounded-md shadow-sm block py-2 px-2 w-full border border-gray-200"
-            type="number"
-            min="0"
-            {...register('sendValue', {
-              required: true,
-              max: { value: kip7Balance },
-            })}
-          />
-          {errors.sendValue && (
-            <div className="text-lightorange">The value is not valid or more than balance</div>
-          )}
-          <button
-            className="flex font-light items-center rounded-full bg-magma px-4 py-2 text-white"
-            type="submit"
-            onClick={handleSubmit(transferTokens)}
-          >
-            Send Tokens
-          </button>
+        <div>
+          <form className="p-4 space-y-4">
+            <label className="block">Receiving Address</label>
+            <input
+              className="rounded-md shadow-sm block py-2 px-2 w-full border border-gray-200"
+              type="text"
+              {...register('receivingAddress', { required: true, validate: validateAddress })}
+            />
+            {errors.receivingAddress && (
+              <div className="text-lightorange">Please enter a valid wallet address</div>
+            )}
+            <label className="block">Number of Tokens</label>
+            <input
+              className="rounded-md shadow-sm block py-2 px-2 w-full border border-gray-200"
+              type="number"
+              min="0"
+              {...register('sendValue', {
+                required: true,
+                max: { value: kip7Balance },
+              })}
+            />
+            {errors.sendValue && (
+              <div className="text-lightorange">The value is not valid or more than balance</div>
+            )}
+            <button
+              className="flex font-light items-center rounded-full bg-magma px-4 py-2 text-white"
+              type="submit"
+              onClick={handleSubmit(transferTokens)}
+            >
+              Send Tokens
+            </button>
+          </form>
         </div>
       </div>
     </div>
