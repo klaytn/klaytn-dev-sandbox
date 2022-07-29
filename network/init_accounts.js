@@ -13,7 +13,7 @@ async function initAccounts(numAccounts) {
       const p = caver.wallet.keyring.generate()
       privateKeys.push(p.key.privateKey)
 
-      const vt = new caver.transaction.valueTransfer({
+      const vt = caver.transaction.valueTransfer.create({
         from: fundAddr,
         to: p.address,
         value: caver.utils.toPeb(100, 'KLAY'),

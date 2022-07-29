@@ -33,6 +33,7 @@ const KIP37 = ({ kip37 }: props) => {
     getValues,
     setValue,
     formState: { errors },
+    reset
   } = useForm<FormData>()
 
   const initCaverIPFS = async () => {
@@ -66,16 +67,18 @@ const KIP37 = ({ kip37 }: props) => {
       console.log('token URI: ', uri)
       try {
         const mintTxn = await kip37.methods
-          .mintToken(uri, quantity)
-          .send({ from: kaikasAddress, gas: '0xF4240' })
-        console.log('mint txn: ', mintTxn)
-        toast.update(id, {
-          render: 'Token(s) successfully minted',
-          type: 'success',
-          autoClose: 3000,
-          isLoading: false,
-        })
-      } catch (err: any) {
+        .mintToken(uri, quantity)
+        .send({ from: kaikasAddress, gas: '0xF4240' })
+      console.log('mint txn: ', mintTxn)
+      toast.update(id, {
+        render: 'Token(s) successfully minted',
+        type: 'success',
+        autoClose: 3000,
+        isLoading: false,
+      })
+      reset();
+      deleteMedia();
+      } catch (err:any) {
         toast.update(id, {
           render: err.message,
           type: 'error',
@@ -121,7 +124,7 @@ const KIP37 = ({ kip37 }: props) => {
 
   return (
     <div className="flex justify-center">
-      <div className="space-y-6 w-1/4">
+      <form className="space-y-6 w-1/4">
         {/* <div className="flex justify-center text-2xl">Mint KIP37 NFT</div> */}
         <div className="flex justify-center  mb-10">
           <Tooltip content="Link to the documentation">
@@ -230,7 +233,7 @@ const KIP37 = ({ kip37 }: props) => {
             </svg>
           </button>
         </div>
-      </div>
+      </form>
     </div>
   )
 }

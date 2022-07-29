@@ -26,6 +26,7 @@ const KIP7 = ({ kip7 }: props) => {
     handleSubmit,
     getValues,
     formState: { errors },
+    reset
   } = useForm<FormData>()
 
   const getWalletBalance = async () => {
@@ -62,6 +63,7 @@ const KIP7 = ({ kip7 }: props) => {
           autoClose: 3000,
           isLoading: false,
         })
+        reset();
       }
     } catch (err: any) {
       console.error(err)
@@ -120,7 +122,7 @@ const KIP7 = ({ kip7 }: props) => {
             </>
           )}
         </div>
-        <div className="p-4 space-y-4">
+        <form className="p-4 space-y-4">
           <label className="block">Receiving Address</label>
           <input
             className="rounded-md shadow-sm block py-2 px-2 w-full border border-gray-200"
@@ -151,7 +153,7 @@ const KIP7 = ({ kip7 }: props) => {
           >
             Send Tokens
           </button>
-        </div>
+        </form>
       </div>
     </div>
   )
