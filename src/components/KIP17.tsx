@@ -10,6 +10,8 @@ const ipfsConn = {
   host: 'ipfs.infura.io',
   port: 5001,
   https: true,
+  projectId: process.env.NEXT_PUBLIC_INFURA_IPFS_PROJECT_KEY ,
+  projectSecret: process.env.NEXT_PUBLIC_INFURA_IPFS_PROJECT_SECRET
 }
 
 type FormData = {
@@ -36,7 +38,8 @@ const KIP17 = ({ kip17 }: props) => {
   } = useForm<FormData>()
 
   const initCaverIPFS = async () => {
-    await caver.ipfs.setIPFSNode(ipfsConn.host, ipfsConn.port, ipfsConn.https)
+    const options = caver.ipfs.createOptions({projectId: ipfsConn.projectId, projectSecret: ipfsConn.projectSecret});
+    await caver.ipfs.setIPFSNode(ipfsConn.host, ipfsConn.port, ipfsConn.https, options)
   }
 
   const mintToken = async () => {
