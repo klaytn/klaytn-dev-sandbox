@@ -10,7 +10,7 @@
   "dependencies": {
     "@headlessui/react": "^1.5.0",
     "@heroicons/react": "^1.0.6",
-    "caver-js": "^1.8.0",
+    "caver-js": "^1.9.1-rc.3",
     "flowbite": "^1.4.7",
     "flowbite-react": "^0.0.25",
     "fs": "^0.0.1-security",
