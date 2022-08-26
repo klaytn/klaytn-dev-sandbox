@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "@klaytn/contracts": "^1.0.2",
-    "caver-js": "^1.5.0",
+    "caver-js": "^1.9.1-rc.3",
     "caver-js-ext-kas": "^1.0.1",
     "dotenv": "^16.0.0",
     "truffle-hdwallet-provider-klaytn": "^1.0.13-a",
