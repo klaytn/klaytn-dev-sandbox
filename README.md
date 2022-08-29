@@ -37,6 +37,7 @@ To resume the network, run `npm run run:klaytn:resume`.
 To completely terminate the network, run `npm run run:klaytn:terminate`.
 To remove log files, run `npm run run:klaytn:cleanlog`.
 
+Note : We found issues running local network in windows. Please refer to the [Issue](https://github.com/klaytn/klaytn-dev-sandbox/issues/44). 
 # Deploying Contracts
 
 ## Deploying a contract to the local network
@@ -120,6 +121,13 @@ Starting from the root folder, run the following:
 
 ```bash
 cd src
+cp .env.local.example .env.local
+```
+Register in Infura https://infura.io/dashboard and create an IPFS project to get a `IPFS_PROJECT_KEY` and `IPFS_PROJECT_SECRET` to store images in public ipfs nodes. We use ipfs to store our NFT metadeta. Read more about ipfs https://docs.infura.io/infura/networks/ipfs. 
+
+Paste the key and secret in .env.local file to run the frontend. 
+
+```bash
 npm install
 npm run dev
 ```
