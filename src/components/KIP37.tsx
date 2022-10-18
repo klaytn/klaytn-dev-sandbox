@@ -10,7 +10,7 @@ const ipfsConn = {
   host: 'ipfs.infura.io',
   port: 5001,
   https: true,
-  projectId: process.env.NEXT_PUBLIC_INFURA_IPFS_PROJECT_KEY ,
+  projectId: process.env.NEXT_PUBLIC_INFURA_IPFS_PROJECT_KEY,
   projectSecret: process.env.NEXT_PUBLIC_INFURA_IPFS_PROJECT_SECRET
 }
 
@@ -39,7 +39,7 @@ const KIP37 = ({ kip37 }: props) => {
   } = useForm<FormData>()
 
   const initCaverIPFS = async () => {
-    const options = caver.ipfs.createOptions({projectId: ipfsConn.projectId, projectSecret: ipfsConn.projectSecret, options});
+    const options = caver.ipfs.createOptions({projectId: ipfsConn.projectId, projectSecret: ipfsConn.projectSecret});
     await caver.ipfs.setIPFSNode(ipfsConn.host, ipfsConn.port, ipfsConn.https)
   }
 
@@ -66,7 +66,7 @@ const KIP37 = ({ kip37 }: props) => {
       await initCaverIPFS()
       const cid = await caver.ipfs.add(Buffer.from(JSON.stringify(metadata)).buffer)
 
-      const uri = `https://ipfs.infura.io/ipfs/${cid}`
+      const uri = `https://infura-ipfs.io/ipfs/${cid}`
       console.log('token URI: ', uri)
       try {
         const mintTxn = await kip37.methods
@@ -104,7 +104,7 @@ const KIP37 = ({ kip37 }: props) => {
         if (event && event.target && event.target.result != null) {
           const cid = await caver.ipfs.add(event.target.result)
 
-          const url = `https://ipfs.infura.io/ipfs/${cid}`
+          const url = `https://infura-ipfs.io/ipfs/${cid}`
           console.log('ipfs url: ', url)
           setImageURL(url)
           setValue('image', url)
