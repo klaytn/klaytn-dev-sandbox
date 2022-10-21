@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { shortenAddress, shortenBalance, validateAddress } from '../helpers'
 import { Button, Tooltip } from 'flowbite-react'
-
+import BigNumber from "bignumber.js"
 type FormData = {
   receivingAddress: string
   sendValue: string
@@ -20,7 +20,6 @@ const KIP7 = ({ kip7 }: props) => {
   const [kip7Balance, setKip7Balance] = useState()
   const [tokenSymbol, setTokenSymbol] = useState()
   const [connectedAddress, setConnectedAddress] = useState()
-  const [isModalHidden, setIsModalHidden] = useState(false)
   const {
     register,
     handleSubmit,
@@ -30,8 +29,11 @@ const KIP7 = ({ kip7 }: props) => {
   } = useForm<FormData>()
 
   const getWalletBalance = async () => {
+    debugger;
     const userBalance = await kip7.methods.balanceOf(connectedAddress).call()
-    setKip7Balance(userBalance)
+    if(userBalance && userBalance > 0) {
+      setKip7Balance(BigNumber(caver.utils.fromPeb(userBalance,"KLAY")).toFixed(2))
+    }
   }
 
   const getTokenInfo = async () => {
@@ -40,6 +42,7 @@ const KIP7 = ({ kip7 }: props) => {
   }
 
   const transferTokens = async () => {
+    debugger;
     const receiver = getValues('receivingAddress')
     const sendValue = getValues('sendValue')
     const gasPrice = await caver.klay.getGasPrice()
@@ -54,7 +57,7 @@ const KIP7 = ({ kip7 }: props) => {
         })
       } else {
         const txn = await kip7.methods
-          .transfer(receiver, sendValue)
+          .transfer(receiver, caver.utils.toPeb(sendValue, "KLAY"))
           .send({ from: connectedAddress, gasPrice: gasPrice, gas: '0xF4240' })
         console.log('successfully sent tokens: ', txn)
         toast.update(id, {
@@ -64,6 +67,7 @@ const KIP7 = ({ kip7 }: props) => {
           isLoading: false,
         })
         reset();
+        getWalletBalance();
       }
     } catch (err: any) {
       console.error(err)
@@ -112,7 +116,7 @@ const KIP7 = ({ kip7 }: props) => {
             <>
               <span>{shortenAddress(connectedAddress)}</span>
               <span>
-                {shortenBalance(kip7Balance).toLocaleString()} {tokenSymbol}
+                {kip7Balance} {tokenSymbol}
               </span>
             </>
           ) : (

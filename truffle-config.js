@@ -113,7 +113,9 @@ module.exports = {
       provider: () => { return new HDWalletProvider(baobabPrivateKey, testnetApiUrl) },
       network_id: '1001', //Klaytn baobab testnet's network id
       gas: '8500000',
-      gasPrice: null
+      gasPrice: null,
+      timeoutBlocks: 20000,
+      networkCheckTimeout: 20000
     },
     cypress: {
       provider: () => { return new HDWalletProvider(cypressPrivateKey, mainnetApiUrl) },
@@ -131,7 +133,7 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      version: "^0.8.0",    // Fetch exact version from solc-bin (default: truffle's version)
+      version: "pragma",    // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
       settings: {          // See the solidity docs for advice about optimization and evmVersion
         optimizer: {

@@ -1,8 +1,9 @@
 const fs = require('fs')
 var kip7Token = artifacts.require('KIP7Token')
+const BigNumber = require("bignumber.js");
 
 module.exports = function (deployer) {
-  deployer.deploy(kip7Token, 'TestToken', 'TST', 1000000000).then(() => {
+  deployer.deploy(kip7Token, 'TestToken', 'TST', BigNumber('100000000000000000000000')).then(() => {
     // Record recently deployed contract address to 'deployedAddress' file.
     if (kip7Token._json) {
       fs.mkdir('./src/deployed', { recursive: true }, (err) => {
