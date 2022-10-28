@@ -30,7 +30,7 @@ const Header = () => {
     setEthProvider
   } = useContext(providerContext)
   const [walletModal, setWalletModal] = useState<boolean>(false)
-  const [metamaskBalance, setMetamaskBalace] = useState<string>()
+  const [metamaskBalance, setMetamaskBalance] = useState<string>()
   const [kaikasBalance, setKaikasBalance] = useState<any>()
   const [metamaskConnected, setMetamaskConnected] = useState<boolean>(false)
 
@@ -40,7 +40,10 @@ const Header = () => {
     setWeb3(null);
     setCurrentWallet('');
     setMetamaskAddress(null);
+    setMetamaskBalance(0);
+    setKaikasBalance(0);
     localStorage.setItem("currentWallet", "");
+    location.reload();
     toast.error("Wallet disconnected. Please reconnect the wallet", { theme: 'colored' });
   }
 
@@ -112,7 +115,7 @@ const Header = () => {
     const balance = await web3.eth.getBalance(metamaskAddress)
     if (balance) {
       const ether = web3.utils.fromWei(balance, 'ether')
-      setMetamaskBalace(ether)
+      setMetamaskBalance(ether)
     }
   }
 
@@ -128,7 +131,7 @@ const Header = () => {
     const balance = await metamaskCaver.klay.getBalance(metamaskAddress)
     if (balance) {
       const ether = metamaskCaver.utils.convertFromPeb(balance, 'KLAY')
-      setMetamaskBalace(ether)
+      setMetamaskBalance(ether)
     }
   }
 
