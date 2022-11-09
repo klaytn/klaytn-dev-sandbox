@@ -23,16 +23,29 @@ const Contracts: NextPage = ({
   const [kip37, setKip37] = useState()
 
   const metamaskContractValidity = async () => {
-    const code = await web3.eth.getCode(kip7address)
-    return code === '0x' ? false : true
+    try {
+      const contract = [kip7address, kip17address, kip37address].find(addr => {
+        if (addr) return caver.utils.isAddress(addr)
+      })
+      if (!contract) return false;
+      const code = await web3.eth.getCode(contract)
+      return code !== '0x'
+    } catch (err) {
+      console.error('error checking contract validity')
+    }
   }
 
   const caverContractValidity = async () => {
     try {
-      const code = await caver.klay.getCode(kip7address)
-      return code === '0x' ? false : true
+      const contract =  [kip7address, kip17address, kip37address].find( addr => {
+        if (addr) return caver.utils.isAddress(addr)
+      })
+      if (!contract) return false;
+      const code = await caver.klay.getCode(contract)
+      return code !== '0x'
     } catch (err) {
       console.error('error checking contract validity')
+
     }
   }
 
@@ -51,11 +64,13 @@ const Contracts: NextPage = ({
         const kip37Contract = new caver.klay.Contract(kip37abi, kip37address)
         setKip37(kip37Contract)
       }
+    } else {
+      alert('Please deploy contract(s) OR connect wallet to the network of your deployed contracts')
     }
   }
 
   const instantiateEthContracts = async () => {
-    const valid: boolean = await metamaskContractValidity()
+    const valid: boolean | any = await metamaskContractValidity()
 
     if (valid) {
       if (kip7address && kip7abi) {
@@ -71,9 +86,9 @@ const Contracts: NextPage = ({
         setKip37(kip37Contract)
       }
     }
-    // else {
-    //   alert('Please connect wallet to the network of your deployed contracts')
-    // }
+    else {
+      alert('Please deploy contract(s) OR connect wallet to the network of your deployed contracts')
+    }
   }
 
   useEffect(() => {
