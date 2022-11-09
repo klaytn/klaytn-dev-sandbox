@@ -28,6 +28,7 @@ const KIP17 = ({ kip17 }: props) => {
   const { caver, kaikasAddress } = useContext(providerContext)
   const [imageURL, setImageURL] = useState('')
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [txnHash, setTxnHash] = useState('')
   const {
     register,
     handleSubmit,
@@ -72,6 +73,7 @@ const KIP17 = ({ kip17 }: props) => {
         .mintNFT(kaikasAddress, uri)
         .send({ from: kaikasAddress, gas: '0xF4240' })
       console.log('successfully minted token: ', mintTxn)
+      setTxnHash(mintTxn.transactionHash);
       toast.update(id, {
         render: 'Token successfully minted',
         type: 'success',
@@ -105,7 +107,7 @@ const KIP17 = ({ kip17 }: props) => {
 
           const url = `https://infura-ipfs.io/ipfs/${cid}`
           console.log('ipfs url: ', url)
-          setImageURL(url)
+          //setImageURL(url)
           setValue('image', url)
           setIsLoading(false)
         } else {
@@ -134,6 +136,7 @@ const KIP17 = ({ kip17 }: props) => {
   return (
     <div className="flex justify-center">
       <form className="space-y-6 w-1/4">
+        <span><b>Note:</b> This feature currently works only with Kaikas !</span>
         <div className="flex justify-center mb-10">
           <Tooltip content="Link to the documentation">
             <a
@@ -239,6 +242,14 @@ const KIP17 = ({ kip17 }: props) => {
             </svg>
           </button>
         </div>
+        {txnHash ?
+          <div className="flex items-center justify-center pt-5 pb-5">
+            <a style={{border: "1px solid #850000", padding: "0px 10px 0px 10px"}}  href={"https://baobab.scope.klaytn.com/tx/"+txnHash} target="_blank">
+              <b>Transaction Hash:</b> {txnHash}
+            </a>
+          </div>
+        : <></>
+        }
       </form>
     </div>
   )

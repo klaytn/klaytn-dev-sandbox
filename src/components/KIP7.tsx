@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { shortenAddress, shortenBalance, validateAddress } from '../helpers'
 import { Button, Tooltip } from 'flowbite-react'
-
+import BigNumber from "bignumber.js"
 type FormData = {
   receivingAddress: string
   sendValue: string
@@ -16,11 +16,11 @@ interface props {
 }
 
 const KIP7 = ({ kip7 }: props) => {
-  const { caver, metamaskAddress, kaikasAddress } = useContext(providerContext)
+  const { caver, web3, metamaskAddress, kaikasAddress } = useContext(providerContext)
   const [kip7Balance, setKip7Balance] = useState()
   const [tokenSymbol, setTokenSymbol] = useState()
   const [connectedAddress, setConnectedAddress] = useState()
-  const [isModalHidden, setIsModalHidden] = useState(false)
+  const [txnHash, setTxnHash] = useState('')
   const {
     register,
     handleSubmit,
@@ -31,7 +31,14 @@ const KIP7 = ({ kip7 }: props) => {
 
   const getWalletBalance = async () => {
     const userBalance = await kip7.methods.balanceOf(connectedAddress).call()
-    setKip7Balance(userBalance)
+    if(userBalance && userBalance > 0) {
+      if(caver) {
+        setKip7Balance(BigNumber(caver.utils.fromPeb(userBalance,"KLAY")).toFixed(2))
+      } else if(web3) {
+        setKip7Balance(BigNumber(web3.utils.fromWei(userBalance,"ether")).toFixed(2))
+      }
+      
+    }
   }
 
   const getTokenInfo = async () => {
@@ -42,7 +49,13 @@ const KIP7 = ({ kip7 }: props) => {
   const transferTokens = async () => {
     const receiver = getValues('receivingAddress')
     const sendValue = getValues('sendValue')
-    const gasPrice = await caver.klay.getGasPrice()
+    let gasPrice = 0;
+    if(caver) {
+      gasPrice = await caver.klay.getGasPrice()
+    } else if(web3) {
+      gasPrice = await web3.eth.getGasPrice()
+    }
+    
     const id = toast.loading('Sending Tokens....', { theme: 'colored' })
     try {
       if (!kip7) {
@@ -53,10 +66,17 @@ const KIP7 = ({ kip7 }: props) => {
           isLoading: false,
         })
       } else {
+        let transferAmount = 0;
+        if(caver) {
+          transferAmount = caver.utils.toPeb(sendValue, "KLAY")
+        } else if(web3) {
+          transferAmount = web3.utils.toWei(sendValue, "ether");
+        }
         const txn = await kip7.methods
-          .transfer(receiver, sendValue)
+          .transfer(receiver, transferAmount)
           .send({ from: connectedAddress, gasPrice: gasPrice, gas: '0xF4240' })
         console.log('successfully sent tokens: ', txn)
+        setTxnHash(txn.transactionHash);
         toast.update(id, {
           render: 'Tokens sent successfully',
           type: 'success',
@@ -64,6 +84,7 @@ const KIP7 = ({ kip7 }: props) => {
           isLoading: false,
         })
         reset();
+        getWalletBalance();
       }
     } catch (err: any) {
       console.error(err)
@@ -112,7 +133,7 @@ const KIP7 = ({ kip7 }: props) => {
             <>
               <span>{shortenAddress(connectedAddress)}</span>
               <span>
-                {shortenBalance(kip7Balance).toLocaleString()} {tokenSymbol}
+                {kip7Balance} {tokenSymbol}
               </span>
             </>
           ) : (
@@ -155,6 +176,14 @@ const KIP7 = ({ kip7 }: props) => {
           </button>
         </form>
       </div>
+      {txnHash ?
+          <div className="flex items-center justify-center pt-5 pb-5">
+            <a style={{border: "1px solid #850000", padding: "0px 10px 0px 10px"}}  href={"https://baobab.scope.klaytn.com/tx/"+txnHash} target="_blank">
+              <b>Transaction Hash:</b> {txnHash}
+            </a>
+          </div>
+        : <></>
+      }
     </div>
   )
 }

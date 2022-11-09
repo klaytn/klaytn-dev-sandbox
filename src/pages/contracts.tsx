@@ -209,7 +209,7 @@ export async function getStaticProps() {
     kip37abi = JSON.parse(kip37abiContents.toString())
     props = { ...props, kip37address: kip37address, kip37abi: kip37abi }
   } catch (err) {
-    console.log('error fetching ki317', err)
+    console.log('error fetching kip37', err)
   }
 
   return {

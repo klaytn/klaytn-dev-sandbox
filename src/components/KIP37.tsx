@@ -28,6 +28,7 @@ interface props {
 const KIP37 = ({ kip37 }: props) => {
   const { caver, kaikasAddress } = useContext(providerContext)
   const [imageURL, setImageURL] = useState('')
+  const [txnHash, setTxnHash] = useState('')
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const {
     register,
@@ -40,7 +41,7 @@ const KIP37 = ({ kip37 }: props) => {
 
   const initCaverIPFS = async () => {
     const options = caver.ipfs.createOptions({projectId: ipfsConn.projectId, projectSecret: ipfsConn.projectSecret});
-    await caver.ipfs.setIPFSNode(ipfsConn.host, ipfsConn.port, ipfsConn.https)
+    await caver.ipfs.setIPFSNode(ipfsConn.host, ipfsConn.port, ipfsConn.https, options)
   }
 
   const mintToken = async () => {
@@ -73,6 +74,7 @@ const KIP37 = ({ kip37 }: props) => {
         .mintToken(uri, quantity)
         .send({ from: kaikasAddress, gas: '0xF4240' })
       console.log('mint txn: ', mintTxn)
+      setTxnHash(mintTxn.transactionHash);
       toast.update(id, {
         render: 'Token(s) successfully minted',
         type: 'success',
@@ -106,7 +108,7 @@ const KIP37 = ({ kip37 }: props) => {
 
           const url = `https://infura-ipfs.io/ipfs/${cid}`
           console.log('ipfs url: ', url)
-          setImageURL(url)
+          //setImageURL(url)
           setValue('image', url)
           setIsLoading(false)
         } else {
@@ -114,6 +116,14 @@ const KIP37 = ({ kip37 }: props) => {
         }
       })
       reader.readAsArrayBuffer(file)
+      // Base64 url to render the image immediately
+      const reader1 = new FileReader()
+      reader1.onloadend = (event: any) => {
+        setImageURL(event.target.result)
+        setIsLoading(false)
+      }
+      reader1.readAsDataURL(file);
+
     } catch (e) {
       console.error('Error uploading file: ', e)
     }
@@ -129,6 +139,7 @@ const KIP37 = ({ kip37 }: props) => {
     <div className="flex justify-center">
       <form className="space-y-6 w-1/4">
         {/* <div className="flex justify-center text-2xl">Mint KIP37 NFT</div> */}
+        <span><b>Note:</b> This feature currently works only with Kaikas !</span>
         <div className="flex justify-center  mb-10">
           <Tooltip content="Link to the documentation">
             <a
@@ -236,6 +247,14 @@ const KIP37 = ({ kip37 }: props) => {
             </svg>
           </button>
         </div>
+        {txnHash ?
+          <div className="flex items-center justify-center pt-5 pb-5">
+            <a style={{border: "1px solid #850000", padding: "0px 10px 0px 10px"}}  href={"https://baobab.scope.klaytn.com/tx/"+txnHash} target="_blank">
+              <b>Transaction Hash:</b> {txnHash}
+            </a>
+          </div>
+        : <></>
+        }
       </form>
     </div>
   )

@@ -8,8 +8,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ethersproject/bignumber": "^5.7.0",
     "@headlessui/react": "^1.5.0",
     "@heroicons/react": "^1.0.6",
+    "bignumber.js": "^9.1.0",
     "caver-js": "^1.9.1-rc.3",
     "flowbite": "^1.4.7",
     "flowbite-react": "^0.0.25",

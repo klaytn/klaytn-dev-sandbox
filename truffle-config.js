@@ -113,7 +113,9 @@ module.exports = {
       provider: () => { return new HDWalletProvider(baobabPrivateKey, testnetApiUrl) },
       network_id: '1001', //Klaytn baobab testnet's network id
       gas: '8500000',
-      gasPrice: null
+      gasPrice: null,
+      timeoutBlocks: 400000,
+      networkCheckTimeout: 400000
     },
     cypress: {
       provider: () => { return new HDWalletProvider(cypressPrivateKey, mainnetApiUrl) },
