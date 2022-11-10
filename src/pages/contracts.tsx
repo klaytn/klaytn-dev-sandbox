@@ -25,7 +25,7 @@ const Contracts: NextPage = ({
   const metamaskContractValidity = async () => {
     try {
       const contract = [kip7address, kip17address, kip37address].find(addr => {
-        if (addr) return caver.utils.isAddress(addr)
+        if (addr) return web3.utils.isAddress(addr)
       })
       if (!contract) return false;
       const code = await web3.eth.getCode(contract)
