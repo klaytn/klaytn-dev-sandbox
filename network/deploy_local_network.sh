@@ -11,8 +11,7 @@ pushd $DIR
 
 if [ ! -e "local-klaytn-deploy" ];then
   echo "local-klaytn-deploy not exist! cloning..."
-  #git clone https://github.com/klaytn/local-klaytn-deploy.git
-  git clone https://github.com/praveen-klaytn/local-klaytn-deploy.git
+  git clone https://github.com/klaytn/local-klaytn-deploy.git
 fi
 
 pushd local-klaytn-deploy
