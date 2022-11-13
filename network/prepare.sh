@@ -11,6 +11,8 @@ pushd $DIR
 
 ./deploy_local_network.sh &> tee.$DATE.log &
 echo "pulling klaytn image and setting up local network, this might take some time.."
+
+echo "Wait for 100 seconds"
 sleep 100
 ./init_accounts.sh
 
