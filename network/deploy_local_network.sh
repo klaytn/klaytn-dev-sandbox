@@ -9,13 +9,13 @@ case "$(uname -sr)" in
 esac
 pushd $DIR
 
-if [ ! -e "local-klaytn-deploy-dev" ];then
+if [ ! -e "local-klaytn-deploy" ];then
   echo "local-klaytn-deploy not exist! cloning..."
   #git clone https://github.com/klaytn/local-klaytn-deploy.git
-  git clone https://github.com/praveen-klaytn/local-klaytn-deploy-dev.git
+  git clone https://github.com/praveen-klaytn/local-klaytn-deploy.git
 fi
 
-pushd local-klaytn-deploy-dev
+pushd local-klaytn-deploy
 ./1.prepare.sh
 ./2.start.sh
 

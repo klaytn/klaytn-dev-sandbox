@@ -7,7 +7,7 @@ case "$(uname -sr)" in
      ;;
 esac
 
-pushd $DIR/local-klaytn-deploy-dev
+pushd $DIR/local-klaytn-deploy
 
 ./2.start.sh
 
