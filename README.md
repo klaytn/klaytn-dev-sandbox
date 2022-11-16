@@ -14,10 +14,8 @@ It imports [klaytn-contract library](https://github.com/klaytn/klaytn-contracts/
 The following packages should be installed before using this source code.
 
 - git
-- docker (Docker should be running in the background)
+- `docker and docker compose` (Docker should be running in the background) for ubuntu/mac or Install `docker desktop` if using Windows machine
 - Node v16.14.0 or above
-- Truffle v5.5.7
-- jq (https://stedolan.github.io/jq/)
 
 ## Package Installation
 
@@ -29,6 +27,10 @@ $ npm install -g truffle@v5.1.61
 ```
 
 ## Running a Local Klaytn Network
+
+```bash
+Note: Execute below commands from gitbash if Windows machine is used
+```
 
 You can easily deploy a local Klaytn network via the following command:
 
@@ -42,7 +44,6 @@ To resume the network, run `npm run run:klaytn:resume`.
 To completely terminate the network, run `npm run run:klaytn:terminate`.
 To remove log files, run `npm run run:klaytn:cleanlog`.
 
-Note : We found issues running local network in windows. Please refer to the [Issue](https://github.com/klaytn/klaytn-dev-sandbox/issues/44). 
 # Deploying Contracts
 
 ## Deploying a contract to the local network

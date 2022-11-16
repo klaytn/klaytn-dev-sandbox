@@ -2,6 +2,11 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
+case "$(uname -sr)" in
+  CYGWIN*|MINGW*|MINGW32*|MSYS*)
+     DIR=`pwd -W`
+     ;;
+esac
 pushd $DIR
 
 if [ ! -e "local-klaytn-deploy" ];then
