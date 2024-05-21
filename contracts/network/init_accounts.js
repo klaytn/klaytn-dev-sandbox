@@ -1,15 +1,15 @@
 const fs = require('fs')
 const Caver = require('caver-js')
-const url = "http://localhost:8551"
+const path = require('path')
+const url = 'http://localhost:8551'
 const caver = new Caver(url)
 
 async function initAccounts(numAccounts) {
-
-  caver.rpc.klay.getAccounts(async function(err, result) {
+  caver.rpc.klay.getAccounts(async function (err, result) {
     var fundAddr = result[0]
     var privateKeys = []
 
-    for(var i = 0; i < numAccounts; i++) {
+    for (var i = 0; i < numAccounts; i++) {
       const p = caver.wallet.keyring.generate()
       privateKeys.push(p.key.privateKey)
 
@@ -24,8 +24,8 @@ async function initAccounts(numAccounts) {
       const receipt = await caver.rpc.klay.sendRawTransaction(signed.raw)
     }
 
-    fs.writeFileSync('privateKeys.js', JSON.stringify(privateKeys))
-    console.log("Account initialized successfully.")
+    fs.writeFileSync(path.join(__dirname, '../privateKeys.js'), JSON.stringify(privateKeys))
+    console.log('Account initialized successfully.')
   })
 }
 

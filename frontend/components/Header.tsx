@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import { useState, useEffect, useContext } from 'react'
-import WalletModal, {connectKaikas, connectMetamask} from './WalletModal'
+import WalletModal, { connectKaikas, connectMetamask } from './WalletModal'
 import providerContext from '../context/context'
 import Image from 'next/image'
 import { DocumentDuplicateIcon } from '@heroicons/react/outline'
 import { shortenAddress, shortenBalance } from '../helpers'
 import Subheader from './Subheader'
 import brandImg from '../public/brandmark.svg'
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
 
 declare const window: any
 
@@ -27,7 +27,7 @@ const Header = () => {
     setCaver,
     setCurrentWallet,
     setKlaytnProvider,
-    setEthProvider
+    setEthProvider,
   } = useContext(providerContext)
   const [walletModal, setWalletModal] = useState<boolean>(false)
   const [metamaskBalance, setMetamaskBalance] = useState<string>()
@@ -35,30 +35,29 @@ const Header = () => {
   const [metamaskConnected, setMetamaskConnected] = useState<boolean>(false)
 
   const disconnectWallet = async () => {
-    setKaikasAddress(null);
-    setCaver(null);
-    setWeb3(null);
-    setCurrentWallet('');
-    setMetamaskAddress(null);
-    setMetamaskBalance(0);
-    setKaikasBalance(0);
-    localStorage.setItem("currentWallet", "");
-    location.reload();
-    toast.error("Wallet disconnected. Please reconnect the wallet", { theme: 'colored' });
+    setKaikasAddress(null)
+    setCaver(null)
+    setWeb3(null)
+    setCurrentWallet('')
+    setMetamaskAddress(null)
+    setMetamaskBalance('0')
+    setKaikasBalance(0)
+    localStorage.setItem('currentWallet', '')
+    location.reload()
+    toast.error('Wallet disconnected. Please reconnect the wallet', { theme: 'colored' })
   }
 
   const reloadWalletState = async () => {
-
-    let klaytnProvider: any, ethProvider: any;
+    let klaytnProvider: any, ethProvider: any
     if (typeof window.klaytn !== 'undefined') {
       const provider = window['klaytn']
-      klaytnProvider = provider;
+      klaytnProvider = provider
       setKlaytnProvider(provider)
     }
     if (typeof window.ethereum !== 'undefined') {
-      const provider = window.ethereum;
-      ethProvider = provider;
-      setEthProvider(provider);
+      const provider = window.ethereum
+      ethProvider = provider
+      setEthProvider(provider)
     }
 
     const state = {
@@ -68,16 +67,16 @@ const Header = () => {
       setKaikasAddress,
       setWeb3,
       setCaver,
-      setCurrentWallet
-    };
+      setCurrentWallet,
+    }
 
-    let storedWallet = localStorage.getItem('currentWallet');
-    if(storedWallet === "kaikas") {
-      await connectKaikas(state);
-    } else if(storedWallet === "metamask") {
-      await connectMetamask(state);
+    let storedWallet = localStorage.getItem('currentWallet')
+    if (storedWallet === 'kaikas') {
+      await connectKaikas(state)
+    } else if (storedWallet === 'metamask') {
+      await connectMetamask(state)
     } else {
-      toast.error("Please connect to wallet", { theme: 'colored' });
+      toast.error('Please connect to wallet', { theme: 'colored' })
     }
   }
 
@@ -148,7 +147,7 @@ const Header = () => {
   }, [ethProvider, metamaskConnected])
 
   useEffect(() => {
-    reloadWalletState();
+    reloadWalletState()
   }, [])
 
   useEffect(() => {
@@ -231,7 +230,6 @@ const Header = () => {
                   Connect
                 </button>
               )}
-              
             </li>
             <li>
               {(metamaskAddress || kaikasAddress) && (

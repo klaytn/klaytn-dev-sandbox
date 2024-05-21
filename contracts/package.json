@@ -1,5 +1,5 @@
 {
-  "name": "klaytn-dev-sandbox",
+  "name": "klaytn-dev-sandbox-truffle-contracts",
   "version": "1.0.0",
   "description": "A developer sandbox with sample DApp and smart contracts for the developer community of Klaytn blockchain",
   "repository": "https://github.com/klaytn/klaytn-dev-sandbox.git",

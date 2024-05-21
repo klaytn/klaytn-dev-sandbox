@@ -4,7 +4,7 @@
 2) First, run the development server:
 
 ```bash
-npm run dev
+pnpm run dev
 # or
 yarn dev
 ```

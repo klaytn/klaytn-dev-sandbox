@@ -2,7 +2,7 @@
 
 This repository contains Boilerplate code for front-end(UI) and contracts(backend) that are helpful to building blockchain applications on Klaytn.
 
-It imports [klaytn-contract library](https://github.com/klaytn/klaytn-contracts/tree/master/contracts) to create a KIP7, KIP17 and KIP37 token. 
+It imports [klaytn-contract library](https://github.com/klaytn/klaytn-contracts/tree/master/contracts) to create a KIP7, KIP17 and KIP37 token.
 
 ## Prerequisites
 
@@ -11,14 +11,16 @@ The following packages should be installed before using this source code.
 - git
 - `docker and docker compose` (Docker should be running in the background) for ubuntu/mac or Install `docker desktop` if using Windows machine
 - Node v16.14.0 or above
+- [pnpm](https://pnpm.io/installation) v8 or above
 
 ## Package Installation
 
 Please install node packages first.
 
 ```bash
-$ npm install
-$ npm install -g truffle@v5.1.61
+cd contracts
+pnpm install
+pnpm install -g truffle@v5.1.61
 ```
 
 ## Running a Local Klaytn Network
@@ -30,14 +32,14 @@ Note: Execute below commands from gitbash if Windows machine is used
 You can easily deploy a local Klaytn network via the following command:
 
 ```bash
-$ npm run run:klaytn
+pnpm run run:klaytn
 ```
 
-To see the execution logs, run `npm run run:klaytn:log`.
-To stop the network, run `npm run run:klaytn:stop`.
-To resume the network, run `npm run run:klaytn:resume`.
-To completely terminate the network, run `npm run run:klaytn:terminate`.
-To remove log files, run `npm run run:klaytn:cleanlog`.
+To see the execution logs, run `pnpm run run:klaytn:log`.
+To stop the network, run `pnpm run run:klaytn:stop`.
+To resume the network, run `pnpm run run:klaytn:resume`.
+To completely terminate the network, run `pnpm run run:klaytn:terminate`.
+To remove log files, run `pnpm run run:klaytn:cleanlog`.
 
 # Deploying Contracts
 
@@ -48,31 +50,31 @@ To remove log files, run `npm run run:klaytn:cleanlog`.
 Deploy KIP-7 contract
 
 ```bash
-$ npm run deploy:klaytn:kip7
+pnpm run deploy:klaytn:kip7
 ```
 
 Deploy KIP-17 contract
 
 ```bash
-$ npm run deploy:klaytn:kip17
+pnpm run deploy:klaytn:kip17
 ```
 
 Deploy kip37 contract
 
 ```bash
-$ npm run deploy:klaytn:kip37
+pnpm run deploy:klaytn:kip37
 ```
 
 ## Deploying a contract to Baobab Testnet
-Make sure you rename the `.env.example` to `.env` before you proceed. 
+Make sure you rename the `.env.example` to `.env` before you proceed.
 
-You can deploy to Baobab using a public rpc endpoint or subscribing to [Klaytn API Service](https://console.klaytnapi.com/en/auth/signup) and using kas endpoint 
+You can deploy to Baobab using a public rpc endpoint or subscribing to [Klaytn API Service](https://console.klaytnapi.com/en/auth/signup) and using kas endpoint
 
 ### Connecting to Baobab via KAS (Klaytn API Service)
 
-Refer to this [documentation](https://docs.klaytnapi.com/v/en/getting-started/get-ready) to signup KAS and get the accessKey, secretKey and rpc endpoint. Update .env file with `ACCESS_KEY_ID`, `SECRET_ACCESS_KEY`and `KAS_TESTNET_API_URL` 
+Refer to this [documentation](https://docs.klaytnapi.com/v/en/getting-started/get-ready) to signup KAS and get the accessKey, secretKey and rpc endpoint. Update .env file with `ACCESS_KEY_ID`, `SECRET_ACCESS_KEY`and `KAS_TESTNET_API_URL`
 
-Go ahead and deploy the KIP contracts with the below config 
+Go ahead and deploy the KIP contracts with the below config
 
 ```truffle-config.js
 kasBaobab: {
@@ -93,7 +95,7 @@ kasBaobab: {
 ```
 
 ```bash
-$ npm run deploy:kasBaobab:<contractname> 
+pnpm run deploy:kasBaobab:<contractname> 
 ```
 
 ### Connecting to Baobab via Public RPC endpoint
@@ -113,7 +115,7 @@ You can export the `privateKey` from kaikas wallet and `URL` from the klaytn [do
 ```
 
 ```bash
-$ npm run deploy:baobab:<contractname>
+pnpm run deploy:baobab:<contractname>
 ```
 
 ## Run the Frontend
@@ -121,35 +123,39 @@ $ npm run deploy:baobab:<contractname>
 Starting from the root folder, run the following:
 
 ```bash
-cd src
+cd frontend
 cp .env.local.example .env.local
 ```
-Register in Infura https://infura.io/dashboard and create an IPFS project to get a `IPFS_PROJECT_KEY` and `IPFS_PROJECT_SECRET` to store images in public ipfs nodes. We use ipfs to store our NFT metadeta. Read more about ipfs https://docs.infura.io/infura/networks/ipfs. 
 
-Paste the key and secret in .env.local file to run the frontend. 
+Register in Infura <https://infura.io/dashboard> and create an IPFS project to get a `IPFS_PROJECT_KEY` and `IPFS_PROJECT_SECRET` to store images in public ipfs nodes. We use ipfs to store our NFT metadeta. Read more about ipfs <https://docs.infura.io/infura/networks/ipfs>.
+
+Paste the key and secret in .env.local file to run the frontend.
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
+
 Note: The current version of frontend does not communicate with the local network. It only interacts with the contracts deployed in baobab network. It will release in the future versions.
 
 ### Troubleshooot
 Issue : Error: Private keys file has not been downloaded to the local directory! Follow the troubleshooting steps to proceed
 
-1. To make sure the network is running 
+1. To make sure the network is running
 
     ```
     $ lsof -i :8551
     COMMAND    PID      USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
     com.docke 5371      xxx  134u  IPv6 0xd988cab51d5e3b71      0t0  TCP *:8551 (LISTEN)
     ```
-if the network is not running then execute ```npm run run:klaytn``` and start the local network 
+
+if the network is not running then execute ```pnpm run run:klaytn``` and start the local network
 
 2. Check whether privateKeys.js file is available in your root folder. If not, execute the below command
 
-    ```npm run run:klaytn:createAccounts```
+    ```pnpm run run:klaytn:createAccounts```
 
+>>>>>>> truffle1
 
 ## Want to Contribute to Klaytn Dev Sandbox? <a id="want-to-contribute"></a>
 

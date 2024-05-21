@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { useState, useContext, useEffect } from 'react'
 import providerContext from '../context/context'
-import Spinner from '../components/Spinner'
+import Spinner from './Spinner'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Button, Tooltip } from 'flowbite-react'
@@ -11,42 +11,44 @@ const ipfsConn = {
   port: 5001,
   https: true,
   projectId: process.env.NEXT_PUBLIC_INFURA_IPFS_PROJECT_KEY,
-  projectSecret: process.env.NEXT_PUBLIC_INFURA_IPFS_PROJECT_SECRET
+  projectSecret: process.env.NEXT_PUBLIC_INFURA_IPFS_PROJECT_SECRET,
 }
 
 type FormData = {
   name: string
   description: string
   image: string
-  quantity: number
 }
 
 interface props {
-  kip37: any
+  kip17: any
 }
 
-const KIP37 = ({ kip37 }: props) => {
+const KIP17 = ({ kip17 }: props) => {
   const { caver, kaikasAddress } = useContext(providerContext)
   const [imageURL, setImageURL] = useState('')
-  const [txnHash, setTxnHash] = useState('')
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [txnHash, setTxnHash] = useState('')
   const {
     register,
     handleSubmit,
     getValues,
     setValue,
     formState: { errors },
-    reset
+    reset,
   } = useForm<FormData>()
 
   const initCaverIPFS = async () => {
-    const options = caver.ipfs.createOptions({projectId: ipfsConn.projectId, projectSecret: ipfsConn.projectSecret});
+    const options = caver.ipfs.createOptions({
+      projectId: ipfsConn.projectId,
+      projectSecret: ipfsConn.projectSecret,
+    })
     await caver.ipfs.setIPFSNode(ipfsConn.host, ipfsConn.port, ipfsConn.https, options)
   }
 
   const mintToken = async () => {
     const id = toast.loading('Minting Tokens....', { theme: 'colored' })
-    if (!kip37) {
+    if (!kip17) {
       toast.update(id, {
         render: 'Contract not deployed yet',
         type: 'error',
@@ -57,12 +59,12 @@ const KIP37 = ({ kip37 }: props) => {
       const name = getValues('name')
       const description = getValues('description')
       const image = getValues('image')
-      const quantity = getValues('quantity')
-      if (!name || !description || !image || !quantity) {
+      if (!name || !description || !image) {
         alert('Please do not leave any fields blank.')
         return
       }
-      const metadata = { name: name, description: description, image: image, quantity: quantity }
+      const metadata = { name: name, description: description, image: image }
+      console.log('metadata: ', metadata)
 
       await initCaverIPFS()
       const cid = await caver.ipfs.add(Buffer.from(JSON.stringify(metadata)).buffer)
@@ -70,20 +72,20 @@ const KIP37 = ({ kip37 }: props) => {
       const uri = `https://infura-ipfs.io/ipfs/${cid}`
       console.log('token URI: ', uri)
       try {
-        const mintTxn = await kip37.methods
-        .mintToken(uri, quantity)
-        .send({ from: kaikasAddress, gas: '0xF4240' })
-      console.log('mint txn: ', mintTxn)
-      setTxnHash(mintTxn.transactionHash);
-      toast.update(id, {
-        render: 'Token(s) successfully minted',
-        type: 'success',
-        autoClose: 3000,
-        isLoading: false,
-      })
-      reset();
-      deleteMedia();
-      } catch (err:any) {
+        const mintTxn = await kip17.methods
+          .mintNFT(kaikasAddress, uri)
+          .send({ from: kaikasAddress, gas: '0xF4240' })
+        console.log('successfully minted token: ', mintTxn)
+        setTxnHash(mintTxn.transactionHash)
+        toast.update(id, {
+          render: 'Token successfully minted',
+          type: 'success',
+          autoClose: 3000,
+          isLoading: false,
+        })
+        reset()
+        deleteMedia()
+      } catch (err: any) {
         toast.update(id, {
           render: err.message,
           type: 'error',
@@ -122,8 +124,7 @@ const KIP37 = ({ kip37 }: props) => {
         setImageURL(event.target.result)
         setIsLoading(false)
       }
-      reader1.readAsDataURL(file);
-
+      reader1.readAsDataURL(file)
     } catch (e) {
       console.error('Error uploading file: ', e)
     }
@@ -138,19 +139,21 @@ const KIP37 = ({ kip37 }: props) => {
   return (
     <div className="flex justify-center">
       <form className="space-y-6 w-1/4">
-        {/* <div className="flex justify-center text-2xl">Mint KIP37 NFT</div> */}
-        <span><b>Note:</b> This feature currently works only with Kaikas !</span>
-        <div className="flex justify-center  mb-10">
+        <span>
+          <b>Note:</b> This feature currently works only with Kaikas !
+        </span>
+        <div className="flex justify-center mb-10">
           <Tooltip content="Link to the documentation">
             <a
               href="https://github.com/Krustuniverse-Klaytn-Group/klaytn-dev-sandbox#deploying-contracts"
               target="_blank"
               rel="noreferrer"
             >
-              <Button>How to use the KIP37 NFT </Button>
+              <Button>How to use the KIP17 NFT </Button>
             </a>
           </Tooltip>
         </div>
+        {/* <div className="flex justify-center text-2xl">Mint KIP17 NFT</div> */}
         <div className="grid grid-cols-1">
           <label className="md:text-sm text-xs text-gray-500 font-body tracking-wider">Name</label>
           <input
@@ -158,6 +161,9 @@ const KIP37 = ({ kip37 }: props) => {
             type="text"
             {...register('name', { required: true })}
           />
+          {errors.name && (
+            <div className="text-lightorange">Please do not leave this field blank</div>
+          )}
         </div>
         <div className="grid grid-cols-1">
           <label className="md:text-sm text-xs text-gray-500 font-body tracking-wider">
@@ -167,18 +173,9 @@ const KIP37 = ({ kip37 }: props) => {
             className="text-gray-500 border border-gray-400 px-4 py-2 outline-none rounded-md mt-2"
             {...register('description', { required: true })}
           />
-        </div>
-        <div className="grid grid-cols-1">
-          <label className="md:text-sm text-xs text-gray-500 font-body tracking-wider">
-            Quantity
-          </label>
-          <input
-            type="number"
-            min="1"
-            step="1"
-            className="text-gray-500 border border-gray-400 px-4 py-2 outline-none rounded-md mt-2"
-            {...register('quantity', { required: true })}
-          />
+          {errors.description && (
+            <div className="text-lightorange">Please do not leave this field blank</div>
+          )}
         </div>
         {imageURL ? (
           <div className="flex justify-center">
@@ -213,6 +210,9 @@ const KIP37 = ({ kip37 }: props) => {
                 onChange={onFileUpload}
               />
             </label>
+            {errors.image && (
+              <div className="text-lightorange">Please do not leave this field blank</div>
+            )}
           </div>
         )}
         {isLoading && (
@@ -222,10 +222,10 @@ const KIP37 = ({ kip37 }: props) => {
         )}
         <div className="flex items-center justify-center pt-5 pb-5">
           <button
-            className="bg-magma text-white tracking-widest font-header py-2 px-8 rounded-full"
+            className="bg-magma text-white tracking-widest font-header py-2 px-8 rounded-full hover:bg-grey-400 "
             onClick={handleSubmit(mintToken)}
           >
-            MINT KIP37 TOKEN
+            MINT KIP17 TOKEN
           </button>
           <button
             className="bg-magma text-white tracking-widest font-header mx-3 py-2 px-8 rounded-full hover:bg-grey-400 "
@@ -247,17 +247,23 @@ const KIP37 = ({ kip37 }: props) => {
             </svg>
           </button>
         </div>
-        {txnHash ?
+        {txnHash ? (
           <div className="flex items-center justify-center pt-5 pb-5">
-            <a style={{border: "1px solid #850000", padding: "0px 10px 0px 10px"}}  href={"https://baobab.scope.klaytn.com/tx/"+txnHash} target="_blank">
+            <a
+              style={{ border: '1px solid #850000', padding: '0px 10px 0px 10px' }}
+              href={'https://baobab.scope.klaytn.com/tx/' + txnHash}
+              target="_blank"
+              rel="noreferrer"
+            >
               <b>Transaction Hash:</b> {txnHash}
             </a>
           </div>
-        : <></>
-        }
+        ) : (
+          <></>
+        )}
       </form>
     </div>
   )
 }
 
-export default KIP37
+export default KIP17

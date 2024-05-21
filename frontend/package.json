@@ -1,5 +1,5 @@
 {
-  "name": "next-ts-tailwind-template",
+  "name": "klaytn-dev-sandbox-truffle-frontend",
   "private": true,
   "scripts": {
     "dev": "next dev",

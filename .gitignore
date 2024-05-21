@@ -17,6 +17,7 @@
 
 # misc
 .DS_Store
+.vscode/
 *.pem
 
 # debug
@@ -43,22 +44,22 @@ coverage.json
 typechain
 
 #Hardhat files
-cache
-artifacts
+contracts/cache
+contracts/artifacts
 
 #System files 
 .DS_Store
 
 #Deployment files
-src/deployed/
+frontend/deployed/
 
 #network log files
-network/local-klaytn-deploy/
-test/*.log
-network/*.log
+contracts/network/local-klaytn-deploy/
+contracts/network/*.log
+contracts/test/*.log
 
 #contract build files 
-build
+contracts/build
 
 #local network privatekey
-privateKeys.js
+contracts/privateKeys.js
