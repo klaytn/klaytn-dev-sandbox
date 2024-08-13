@@ -2,62 +2,14 @@
   "name": "klaytn-dev-sandbox",
   "version": "1.0.0",
   "description": "A developer sandbox with sample DApp and smart contracts for the developer community of Klaytn blockchain",
-  "repository": "https://github.com/klaytn/klaytn-dev-sandbox.git",
-  "author": "Klaytn",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/klaytn/klaytn-dev-sandbox/issues"
-  },
-  "homepage": "https://github.com/klaytn/klaytn-dev-sandbox",
   "scripts": {
-    "build": "truffle compile",
-    "test": "concurrently --success first --kill-others \"yarn run:ganache\" \"yarn test:ganache\"",
-    "run:ganache": "ganache-cli -l 80000000 -q -k constantinople",
-    "run:klaytn": "bash ./network/prepare.sh",
-    "run:klaytn:createAccounts": "bash ./network/init_accounts.sh",
-    "run:klaytn:start": "bash ./network/prepare.sh",
-    "run:klaytn:stop": "bash ./network/stop.sh",
-    "run:klaytn:resume": "bash ./network/resume.sh",
-    "run:klaytn:terminate": "bash ./network/terminate.sh",
-    "run:klaytn:log": "bash find -s ./network -name tee.*.log | tail -1 | xargs -I{} tail -f {}",
-    "run:klaytn:cleanlog": "bash find -s ./network -name tee.*.log -delete",
-    "test:ganache": "truffle test",
-    "test:klaytn": "truffle test --network klaytn",
-    "deploy:klaytn": "truffle deploy --network klaytn",
-    "deploy:baobab": "truffle deploy --network baobab",
-    "deploy:cypress": "truffle deploy --network cypress",
-    "deploy:baobab:kip7": "truffle migrate --f 1 --to 2 --network baobab",
-    "deploy:baobab:kip17": "truffle migrate --f 3 --to 3 --network baobab",
-    "deploy:baobab:kip37": "truffle migrate --f 4 --to 4 --network baobab",
-    "deploy:kasBaobab:kip7": "truffle migrate --f 1 --to 2 --network kasBaobab",
-    "deploy:kasBaobab:kip17": "truffle migrate --f 3 --to 3 --network kasBaobab",
-    "deploy:kasBaobab:kip37": "truffle migrate --f 4 --to 4 --network kasBaobab",
-    "deploy:klaytn:kip7": "truffle migrate --f 1 --to 2 --network klaytn",
-    "deploy:klaytn:kip17": "truffle migrate --f 3 --to 3 --network klaytn",
-    "deploy:klaytn:kip37": "truffle migrate --f 4 --to 4 --network klaytn"
+    "hh": "bash ./scripts/hh.sh",
+    "local": "bash ./scripts/local.sh",
+    "baobab": "bash ./scripts/baobab.sh",
+    "kasBaobab": "bash ./scripts/kasBaobab.sh",
+    "specific": "bash ./scripts/specific.sh",
+    "stop:local": "pnpm run --filter \"./contracts\" run:local:stop"
   },
-  "dependencies": {
-    "@klaytn/contracts": "^1.0.2",
-    "bignumber.js": "^9.1.0",
-    "caver-js": "^1.9.1-rc.3",
-    "caver-js-ext-kas": "^1.0.1",
-    "dotenv": "^16.0.0",
-    "truffle-hdwallet-provider-klaytn": "^1.0.13-a",
-    "web3": "^1.7.1"
-  },
-  "devDependencies": {
-    "concurrently": "^5.3.0",
-    "ganache-cli": "^6.12.1",
-    "openzeppelin-test-helpers": "^0.3.2",
-    "truffle": "^5.5.7",
-    "truffle-assertions": "^0.9.2"
-  },
-  "prettier": {
-    "trailingComma": "es5",
-    "tabWidth": 2,
-    "semi": false,
-    "singleQuote": true,
-    "bracketSpacing": true,
-    "printWidth": 100
-  }
+  "author": "klaytn",
+  "license": "MIT"
 }

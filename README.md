@@ -13,156 +13,93 @@
 
 # Klaytn Dev Sandbox
 
-This repository contains Boilerplate code for front-end(UI) and contracts(backend) that are helpful to building blockchain applications on Klaytn.
+This repository contains Boilerplate code for frontend(UI) and contracts(backend) that are helpful to building blockchain applications on Klaytn.
 
-It imports [klaytn-contract library](https://github.com/klaytn/klaytn-contracts/tree/master/contracts) to create a KIP7, KIP17 and KIP37 token. 
+It imports [klaytn-contract library](https://github.com/klaytn/klaytn-contracts/tree/master/contracts) to create a KIP7, KIP17 and KIP37 token.
 
 ## Prerequisites
 
 The following packages should be installed before using this source code.
 
+- Node v16.14.0 or above
+- [pnpm](https://pnpm.io/installation) v8 or above
+
+### Prerequisites for starting a Local Klaytn Node
+
 - git
 - `docker and docker compose` (Docker should be running in the background) for ubuntu/mac or Install `docker desktop` if using Windows machine
-- Node v16.14.0 or above
 
 ## Package Installation
 
 Please install node packages first.
 
 ```bash
-$ npm install
-$ npm install -g truffle@v5.1.61
+pnpm i
 ```
 
-## Running a Local Klaytn Network
+## Basic Usage
+
+### Compile contracts
 
 ```bash
-Note: Execute below commands from gitbash if Windows machine is used
+cd contracts/ # from root directory
+pnpm run compile
 ```
 
-You can easily deploy a local Klaytn network via the following command:
+### Deploy contracts
 
 ```bash
-$ npm run run:klaytn
+pnpm run deploy
 ```
 
-To see the execution logs, run `npm run run:klaytn:log`.
-To stop the network, run `npm run run:klaytn:stop`.
-To resume the network, run `npm run run:klaytn:resume`.
-To completely terminate the network, run `npm run run:klaytn:terminate`.
-To remove log files, run `npm run run:klaytn:cleanlog`.
-
-# Deploying Contracts
-
-## Deploying a contract to the local network
-
-1. To deploy a contract, execute any one of the following command to deploy the local network.
-
-Deploy KIP-7 contract
+### Build the frontend
 
 ```bash
-$ npm run deploy:klaytn:kip7
+cd frontend/ # from root directory
+pnpm run build
 ```
 
-Deploy KIP-17 contract
+### Start the frontend
 
 ```bash
-$ npm run deploy:klaytn:kip17
+pnpm run start
 ```
 
-Deploy kip37 contract
+## Usage Variations
+
+| Variation                         | Quick Script                                     | Detailed Guide ([./docs/](./docs/)*)                                      |
+|-----------------------------------|--------------------------------------------------|---------------------------------------------------------------------------|
+| Basic Usage (this)                | `pnpm run hh`                                    | -                                                                         |
+| using Local Klaytn Node           | `pnpm run local`                                 | [using-local-klaytn-node.md](./docs/using-local-klaytn-node.md)           |
+| using Baobab Testnet              | `pnpm run baobab` (read Detailed Guide first)    | [using-baobab-testnet.md](./docs/using-baobab-testnet.md)                 |
+| using Klaytn API Service — Baobab | `pnpm run kasBaobab` (read Detailed Guide first) | [using-kasBaobab.md](./docs/using-kasBaobab.md)                           |
+| deploying only specific contracts | `pnpm run specific`                              | [deploying-specific-contracts.md](./docs/deploying-specific-contracts.md) |
+
+### Debugging
+
+#### Port 3000 in use
 
 ```bash
-$ npm run deploy:klaytn:kip37
+> next start
+
+Error: listen EADDRINUSE: address already in use 0.0.0.0:3000`
 ```
 
-## Deploying a contract to Baobab Testnet
-Make sure you rename the `.env.example` to `.env` before you proceed. 
+Using Local Klaytn Node runs a server on port 3000, preventing `next start` from running. To resolve, either...
 
-You can deploy to Baobab using a public rpc endpoint or subscribing to [Klaytn API Service](https://console.klaytnapi.com/en/auth/signup) and using kas endpoint 
-
-### Connecting to Baobab via KAS (Klaytn API Service)
-
-Refer to this [documentation](https://docs.klaytnapi.com/v/en/getting-started/get-ready) to signup KAS and get the accessKey, secretKey and rpc endpoint. Update .env file with `ACCESS_KEY_ID`, `SECRET_ACCESS_KEY`and `KAS_TESTNET_API_URL` 
-
-Go ahead and deploy the KIP contracts with the below config 
-
-```truffle-config.js
-kasBaobab: {
-      provider: () => {
-        const option = {
-          headers: [
-            { name: 'Authorization', value: 'Basic ' + Buffer.from(accessKeyId + ':' + secretAccessKey).toString('base64') },
-            { name: 'x-chain-id', value: '1001' }
-          ],
-          keepAlive: false,
-        }
-        return new HDWalletProvider(baobabPrivateKey, new Caver.providers.HttpProvider(kasTestnetApiUrl, option))
-      },
-      network_id: '1001', //Klaytn baobab testnet's network id
-      gas: '8500000',
-      gasPrice:'750000000000'
-    }
-```
+A. Stop the Local Klaytn Node server
 
 ```bash
-$ npm run deploy:kasBaobab:<contractname> 
+pnpm run stop:local # from root directory
+# or
+pnpm run run:local:stop # from contracts/
 ```
 
-### Connecting to Baobab via Public RPC endpoint
-Update `privateKey` and `URL` in .env file for test network `baobab` of [truffle-config.js](./truffle-config.js).
+or
 
-You can export the `privateKey` from kaikas wallet and `URL` from the klaytn [docs](https://docs.klaytn.foundation/dapp/json-rpc/public-en)
+B. Run `next start` on a different port
 
-```js
-    baobab: {
-      provider: () => {
-        return new HDWalletProvider(privateKey, testnetApiUrl);
-      },
-      network_id: '1001', //Klaytn baobab testnet's network id
-      gas: '8500000',
-      gasPrice: null
-    },
-```
-
-```bash
-$ npm run deploy:baobab:<contractname>
-```
-
-## Run the Frontend
-
-Starting from the root folder, run the following:
-
-```bash
-cd src
-cp .env.local.example .env.local
-```
-Register in Infura https://infura.io/dashboard and create an IPFS project to get a `IPFS_PROJECT_KEY` and `IPFS_PROJECT_SECRET` to store images in public ipfs nodes. We use ipfs to store our NFT metadeta. Read more about ipfs https://docs.infura.io/infura/networks/ipfs. 
-
-Paste the key and secret in .env.local file to run the frontend. 
-
-```bash
-npm install
-npm run dev
-```
-Note: The current version of frontend does not communicate with the local network. It only interacts with the contracts deployed in baobab network. It will release in the future versions.
-
-### Troubleshooot
-Issue : Error: Private keys file has not been downloaded to the local directory! Follow the troubleshooting steps to proceed
-
-1. To make sure the network is running 
-
-    ```
-    $ lsof -i :8551
-    COMMAND    PID      USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
-    com.docke 5371      xxx  134u  IPv6 0xd988cab51d5e3b71      0t0  TCP *:8551 (LISTEN)
-    ```
-if the network is not running then execute ```npm run run:klaytn``` and start the local network 
-
-2. Check whether privateKeys.js file is available in your root folder. If not, execute the below command
-
-    ```npm run run:klaytn:createAccounts```
-
+- the Quick Script [`pnpm run local`](./scripts/local.sh) runs `next start` with `-p 3001` to avoid this issue.
 
 ## Want to Contribute to Klaytn Dev Sandbox? <a id="want-to-contribute"></a>
 

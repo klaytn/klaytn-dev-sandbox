@@ -1,0 +1,13 @@
+{
+  "KIP7": {
+    "name": "TestToken",
+    "symbol": "TST",
+    "initialSupply": "1000000000n"
+  },
+  "KIP17": {
+    "name": "KlaytnNFT",
+    "symbol": "NFT",
+    "baseuri": "https://doma.in/path"
+  },
+  "KIP37": {}
+}

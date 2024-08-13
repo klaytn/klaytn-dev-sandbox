@@ -1,0 +1,45 @@
+{
+  "name": "klaytn-dev-sandbox-hardhat-contracts",
+  "version": "1.0.0",
+  "repository": "https://github.com/klaytn/klaytn-dev-sandbox.git",
+  "author": "Klaytn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/klaytn/klaytn-dev-sandbox/issues"
+  },
+  "homepage": "https://github.com/klaytn/klaytn-dev-sandbox",
+  "scripts": {
+    "hh": "hardhat",
+    "help": "hardhat help",
+    "help:deploy": "hardhat deploy --help",
+    "compile": "hardhat compile",
+    "run:local": "bash ./run-local/prepare.sh",
+    "run:local:createAccounts": "bash ./run-local/init_accounts.sh",
+    "run:local:start": "bash ./run-local/prepare.sh",
+    "run:local:stop": "bash ./run-local/stop.sh",
+    "run:local:resume": "bash ./run-local/resume.sh",
+    "run:local:terminate": "bash ./run-local/terminate.sh",
+    "run:local:log": "bash find -s ./run-local -name tee.*.log | tail -1 | xargs -I{} tail -f {}",
+    "run:local:cleanlog": "bash find -s ./run-local -name tee.*.log -delete",
+    "run:hh2": "hardhat node",
+    "deploy": "hardhat deploy",
+    "deploy:hh": "hardhat deploy --network hardhat",
+    "deploy:hh:kip7": "hardhat deploy --network hardhat --contracts kip7",
+    "deploy:hh:kip17": "hardhat deploy --network hardhat --contracts kip17",
+    "deploy:hh:kip37": "hardhat deploy --network hardhat --contracts kip37",
+    "deploy:hh2": "hardhat deploy --network localhost",
+    "deploy:local": "hardhat deploy --network local",
+    "deploy:baobab": "hardhat deploy --network baobab",
+    "deploy:kasBaobab": "hardhat deploy --network kasBaobab",
+    "deploy:cypress": "hardhat deploy --network cypress",
+    "deploy:kasCypress": "hardhat deploy --network kasCypress"
+  },
+  "dependencies": {
+    "@klaytn/contracts": "^1.0.2",
+    "@nomicfoundation/hardhat-ignition": "^0.15.1",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "dotenv": "^16.4.5",
+    "ethers": "^6.12.0",
+    "hardhat": "^2.22.3"
+  }
+}
